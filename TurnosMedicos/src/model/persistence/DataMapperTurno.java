@@ -1,13 +1,7 @@
 package model.persistence;
-
-
 import java.util.ArrayList;
-
 import model.Turno;
 import model.TurnoDTO;
-
-//import model.Turno;
-//import model.TurnoDTO;
 
 public class DataMapperTurno {
 	

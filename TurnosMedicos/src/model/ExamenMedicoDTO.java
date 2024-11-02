@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public class ExamenMedico {
+public class ExamenMedicoDTO {
 	private String id;
 	private TipoExamen tipo;
 	private LocalDate fecha;
@@ -58,7 +58,7 @@ public class ExamenMedico {
 		this.nota = nota;
 	}
 
-	public ExamenMedico(String id, TipoExamen tipo, LocalDate fecha, Profesional medico, Paciente paciente,
+	public ExamenMedicoDTO(String id, TipoExamen tipo, LocalDate fecha, Profesional medico, Paciente paciente,
 			String nota) {
 		super();
 		this.id = id;
@@ -69,6 +69,14 @@ public class ExamenMedico {
 		this.nota = nota;
 	}
 
-	public ExamenMedico() {
+	public ExamenMedicoDTO() {
+		super();
 	}
+
+	@Override
+	public String toString() {
+		return "ExamenMedico [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha + ", medico=" + medico + ", paciente="
+				+ paciente + ", nota=" + nota + "]";
+	}
+
 }

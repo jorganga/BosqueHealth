@@ -52,4 +52,10 @@ public class Cita {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	@Override
+	public String toString() {
+		return "Cita [turnito=" + turnito + ", id=" + id + ", paciente=" + paciente + ", estado=" + estado + "]";
+	}
+	
 }
