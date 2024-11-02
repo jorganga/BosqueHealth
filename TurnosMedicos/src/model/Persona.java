@@ -2,12 +2,12 @@ package model;
 
 public class Persona {
 	private String nombre;
-	private String id;
+	private String identificacion;
 	
-	public Persona(String nombre, String id) {
+	public Persona(String nombre, String identificacion) {
 		super();
 		this.nombre = nombre;
-		this.id = id;
+		this.identificacion = identificacion;
 	}
 	
 	public Persona() {
@@ -20,11 +20,11 @@ public class Persona {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getId() {
-		return id;
+	public String getIdentificacion() {
+		return identificacion;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String identificacion) {
+		this.identificacion = identificacion;
 	}
 		
 }

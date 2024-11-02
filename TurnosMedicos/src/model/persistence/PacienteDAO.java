@@ -81,12 +81,11 @@ public class PacienteDAO implements CRUDOperation<PacienteDTO, Paciente> {
 	public void writeFile() {
 		String content = "";
 		for (Paciente m : listaPaciente) {
+			content += m.getIdentificacion() + ";";
 			content += m.getNombre() + ";";
-			content += m.getId() + ";";
 			content += m.getTipoSangre() + ";";
 			content += m.getPeso() + ";";
 			content += m.getFechaNacimiento() + ";";
-			content += m.getCedula() + ";";
 			content += "\n";
 		}
 		FileHandler.writeFile(FILE_NAME, content);

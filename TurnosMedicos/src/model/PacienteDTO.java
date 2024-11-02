@@ -6,18 +6,17 @@ public class PacienteDTO extends Persona {
 	private String tipoSangre;
 	private int peso;
 	private Date fechaNacimiento;
-	private int cedula;
-
+	private String identificacion;
+	private String nombre;
 	public PacienteDTO() {
 
 	}
 
-	public PacienteDTO(String nombre, String id, String tipoSangre, int peso, Date fechaNacimiento, int cedula) {
-		super(nombre, id);
+	public PacienteDTO(String identificacion, String nombre, String tipoSangre, int peso, Date fechaNacimiento) {
+		super(nombre, identificacion);
 		this.tipoSangre = tipoSangre;
 		this.peso = peso;
 		this.fechaNacimiento = fechaNacimiento;
-		this.cedula = cedula;
 	}
 
 	public String getTipoSangre() {
@@ -35,6 +34,14 @@ public class PacienteDTO extends Persona {
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
+	
+	public String getIdentificacion() {
+		return identificacion;
+	}
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
+	}
 
 	public Date getFechaNacimiento() {
 		return fechaNacimiento;
@@ -44,18 +51,18 @@ public class PacienteDTO extends Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public int getCedula() {
-		return cedula;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setCedula(int cedula) {
-		this.cedula = cedula;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	@Override
 	public String toString() {
-		return "Paciente [tipoSangre=" + tipoSangre + ", peso=" + peso + ", fechaNacimiento=" + fechaNacimiento
-				+ ", cedula=" + cedula + "]";
+		return "identificacion=" + identificacion + ", nombre=" + nombre + ", tipoSangre=" +  tipoSangre + 
+				", peso=" + peso + ", fechaNacimiento=" + fechaNacimiento;
 	}
 
 }

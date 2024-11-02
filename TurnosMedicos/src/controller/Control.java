@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -181,9 +183,17 @@ public class Control implements ActionListener {
 		Date fecha = new Date();
 		listaPaciente = new ArrayList<Paciente>();
 		
-		listaPaciente.add(new Paciente("Sara", "1234", "o+", 56, fecha, 555));
-		listaPaciente.add(
-				new Paciente("Ayalita (Novio de Sara(la quiere mucho mumumurlkthdf))", "5552", "o+", 56, fecha, 555));
+		listaPaciente.add(new Paciente("1234", "Sara Angulo", "O+", 56, fecha));
+		listaPaciente.add(new Paciente("2345", "Luis Ramírez", "B+", 45, fecha));
+		listaPaciente.add(new Paciente("3456", "María López", "AB-", 29, fecha));
+		listaPaciente.add(new Paciente("4567", "Carlos Gómez", "O-", 63, fecha));
+		listaPaciente.add(new Paciente("5678", "Ana Torres", "A+", 37, fecha));
+		listaPaciente.add(new Paciente("6789", "Miguel Fernández", "B-", 50, fecha));
+		listaPaciente.add(new Paciente("7890", "Laura Martínez", "AB+", 27, fecha));
+		listaPaciente.add(new Paciente("8901", "Pedro Castillo", "O+", 41, fecha));
+		listaPaciente.add(new Paciente("9012", "Daniela Vargas", "A-", 33, fecha));
+		listaPaciente.add(new Paciente("1235", "Jorge Herrera", "B+", 54, fecha));
+		listaPaciente.add(new Paciente("2346", "Carmen Ruiz", "AB-", 22, fecha));
 	}
 
 	public void mostrarVentanaCitas() {
@@ -195,6 +205,11 @@ public class Control implements ActionListener {
         }
 		
 		ventanaCita.listaPacientes.setModel(modelo);
+		
+		DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel<Especialidad>(administrador.getListaEspecialidades().toArray(new Especialidad[0]));
+		
+		ventanaCita.cboxEspecialidad.setModel(modeloCombo);
+		
 		
 		ventanaCita.setVisible(true);
 	}

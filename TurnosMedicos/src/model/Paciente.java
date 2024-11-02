@@ -6,18 +6,16 @@ public class Paciente extends Persona {
 	private String tipoSangre;
 	private int peso;
 	private Date fechaNacimiento;
-	private int cedula;
 
 	public Paciente() {
 
 	}
 
-	public Paciente(String nombre, String id, String tipoSangre, int peso, Date fechaNacimiento, int cedula) {
-		super(nombre, id);
+	public Paciente(String identificacion, String nombre, String tipoSangre, int peso, Date fechaNacimiento) {
+		super(nombre, identificacion);
 		this.tipoSangre = tipoSangre;
 		this.peso = peso;
 		this.fechaNacimiento = fechaNacimiento;
-		this.cedula = cedula;
 	}
 
 	public String getTipoSangre() {
@@ -44,17 +42,9 @@ public class Paciente extends Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public int getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(int cedula) {
-		this.cedula = cedula;
-	}
-
 	@Override
 	public String toString() {
-		return getNombre() + "-" + getId() ;
+		return getNombre() + "-" + getIdentificacion() ;
 	}
 
 }
