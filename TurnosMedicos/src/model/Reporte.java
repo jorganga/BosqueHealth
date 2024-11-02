@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Reporte {
 	
-	public DefaultTableModel GenerarReporteTurnosPorEspecialista(ArrayList<Turno> lista) {
+	public DefaultTableModel GenerarReporteTurnosPorEspecialista(ArrayList<TurnoDTO> lista) {
 		
 		String idTurno = "";
 		String especialidad = "";
@@ -20,7 +20,7 @@ public class Reporte {
 		
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 		
-		for (Turno model : lista) {
+		for (TurnoDTO model : lista) {
 			idTurno = model.getId();
 			especialidad = model.getDoctor().getEspecialidad().getNombre();
 			especialista = model.getDoctor().getNombre();

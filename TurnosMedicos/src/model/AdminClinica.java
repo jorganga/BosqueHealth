@@ -10,18 +10,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import model.persistence.DataMapperTurno;
 import model.persistence.TurnoDAO;
 
 public class AdminClinica {
 	ArrayList<Especialidad> listaEspecialidades;
 	ArrayList<Profesional> listaEspecialistas;
 	ArrayList<Turno> listaTurnos;
+	TurnoDAO dao;
 	
 	public AdminClinica() {
 		// TODO Auto-generated constructor stub
 		listaEspecialidades = new ArrayList<Especialidad>();
 		listaEspecialistas = new ArrayList<Profesional>();
 		listaTurnos = new ArrayList<Turno>();
+		dao = new TurnoDAO();
 	}
 	public ArrayList<Especialidad> getListaEspecialidades() {
 		return listaEspecialidades;
@@ -127,7 +130,7 @@ public class AdminClinica {
 		Turnero turnero = new Turnero();
 		List<Profesional> listaFiltrada;
 		
-		ArrayList<Turno> turnosLocales = new ArrayList<Turno>();
+		ArrayList<Turno> turnosEspecialidad = new ArrayList<Turno>();
 		
 		if (TurnosYaGenerados(fechaMes)) {
 			return "Este periodo ya fue generado, seleccione otro!";
@@ -137,39 +140,23 @@ public class AdminClinica {
 			listaFiltrada =  listaEspecialistas.stream().filter(per -> per.getEspecialidad().getNombre().equals(especia.getNombre())).collect(Collectors.toList());
 		    turnero.setListaDeDoctores((ArrayList<Profesional>)listaFiltrada); 
 		    turnero.AsignarTurnos(fechaMes);
-		    turnosLocales = turnero.getListaTurnos();
-		    //TODO GUARDAR EN UN ARCHIVO LA LISTA DE TURNOS getListaTurnos
-		    /*
-		    for (Turno model : turnero.getListaTurnos()) {
-		      System.out.println(model.getFecha() + "-hora: "+ model.getHora() + " Dr: " + model.getDoctor().getNombre());
-		    }
-		    */
+		    turnosEspecialidad.addAll(turnero.getListaTurnos());
 		}
 		
-		listaTurnos.addAll(turnosLocales);
-	    
-	    TurnoDAO dao = new TurnoDAO();
-	    dao.setListaTurno(listaTurnos);
-	    dao.writeFile();
+		dao.setListaTurno(turnosEspecialidad);
+	    dao.writeSerializable();
 		
 		return "Turnos Generados Exitosamente!";
-		/*
-		List<Profesional> listaFiltrada =  
-				listaEspecialistas.stream()
-				.filter(per -> per.getEspecialidad().getNombre().equals("Medicina Interna")).collect(Collectors.toList());
-	    turnero.setListaDeDoctores((ArrayList<Profesional>)listaFiltrada); 
-	    turnero.AsignarTurnos(fechaMes);
-	    */
-	    
 	}
 	
 	private boolean TurnosYaGenerados(LocalDate fechaMes) {
-	if (listaTurnos != null && listaTurnos.size() > 0) {
+		dao.readSerializable();
+		listaTurnos = dao.getListaTurno();
+		if (listaTurnos != null && listaTurnos.size() > 0) {
 			List<Turno> listaFiltrada =  
 					listaTurnos.stream()
 					.filter(turn -> turn.getFecha().equals(fechaMes)).collect(Collectors.toList());
 			if(listaFiltrada.size() > 0) {
-				//turnos ya generados para esa fecha
 				return true;
 			}
 		}
@@ -189,7 +176,6 @@ public class AdminClinica {
 		LocalDate fecha = LocalDate.now();
 		
 		Month mes = fecha.getMonth();
-		// Obtienes el nombre del mes
 		String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es","ES"));
 		int mesNumero = fecha.getMonthValue();
 		int year = fecha.getYear();

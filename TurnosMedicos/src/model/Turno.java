@@ -1,11 +1,15 @@
 
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public class Turno {
+public class Turno  implements Serializable {
+	
+	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
+	
 	private String id;
 	private Profesional doctor;
 	private LocalDate fecha;

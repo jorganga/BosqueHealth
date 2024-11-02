@@ -1,5 +1,5 @@
 package controller;
-//comentaario
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -19,21 +19,20 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 
-import model.ModelFacade;
-
-import static java.time.temporal.ChronoUnit.DAYS;
-
 import model.*;
+import model.persistence.TurnoDAO;
 import view.VentanaAsignarTurnos;
 import view.VentanaCita;
 import view.VentanaPrincipal;
 import view.VentanaTurnos;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Control implements ActionListener {
 
 	ArrayList<Profesional> listaDeDoctores;
-	ArrayList<Turno> listaDeTurnos;
+	ArrayList<TurnoDTO> listaDeTurnos;
 	VentanaPrincipal ventanaPrincipal;
 	VentanaTurnos ventanaTurnos;
 	VentanaAsignarTurnos ventanaAsignarTurnos;
@@ -55,7 +54,8 @@ public class Control implements ActionListener {
 		 * "Prueba de mensaje con java email Nico");
 		 */
 
-		CargarPacientes();
+		cargarPacientes();
+		cargarTurnos();
 
 		ventanaPrincipal = new VentanaPrincipal();
 		ventanaTurnos = new VentanaTurnos();
@@ -75,6 +75,7 @@ public class Control implements ActionListener {
 		administrador.CargarEspecialidades();
 
 		administrador.CargarEspecialistas();
+		
 
 		ventanaPrincipal.setVisible(true);
 
@@ -106,7 +107,7 @@ public class Control implements ActionListener {
 
 	}
 
-	private void MostrarVentanaAsignarTurnos() {
+	private void mostrarVentanaAsignarTurnos() {
 
 		if (ventanaAsignarTurnos.cboxPeriodo.getItemCount() == 0) {
 			Periodo[] periodos = administrador.ConsultarPeriodos();
@@ -118,7 +119,7 @@ public class Control implements ActionListener {
 		ventanaAsignarTurnos.setVisible(true);
 	}
 
-	private void MostrarVentanaReporeteTurnos() {
+	private void mostrarVentanaReporeteTurnos() {
 
 		Reporte reporteTurnos = new Reporte();
 
@@ -127,9 +128,15 @@ public class Control implements ActionListener {
 		ventanaTurnos.tableTurnos.setModel(tableModel);
 		ventanaTurnos.setVisible(true);
 	}
+	
+	private void cargarTurnos() {
+		TurnoDAO adminTurnos  = new TurnoDAO();
+		listaDeTurnos = adminTurnos.getAll();
+	}
+	
 
-	private void GenerarTurnos() {
-
+	private void generarTurnos() {
+		
 		if (ventanaAsignarTurnos.cboxPeriodo.getSelectedIndex() < 0) {
 			showMessageDialog(null, "Debe seleccionar un periodo");
 			return;
@@ -139,10 +146,10 @@ public class Control implements ActionListener {
 		LocalDate fecha = LocalDate.of(periodosTurno.getYear(), periodosTurno.getMes(), 1);
 
 		String resultado = administrador.GenerarTurnos(fecha);
-
-		listaDeTurnos = administrador.getListaTurnos();
-
+		
 		showMessageDialog(null, resultado);
+		
+		cargarTurnos();
 
 		ventanaAsignarTurnos.setVisible(true);
 	}
@@ -150,19 +157,19 @@ public class Control implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (ventanaPrincipal.btnAsignarTurnos == e.getSource()) {
-			MostrarVentanaAsignarTurnos();
+			mostrarVentanaAsignarTurnos();
 		}
 
 		if (ventanaAsignarTurnos.btnGenerarTurnos == e.getSource()) {
-			GenerarTurnos();
+			generarTurnos();
 		}
 
 		if (ventanaPrincipal.btnReporteTurnos == e.getSource()) {
-			MostrarVentanaReporeteTurnos();
+			mostrarVentanaReporeteTurnos();
 		}
 		
 		if (ventanaPrincipal.btnCita == e.getSource()) {
-			MostrarVentanaCitas();
+			mostrarVentanaCitas();
 		}
 
 		/*
@@ -170,7 +177,7 @@ public class Control implements ActionListener {
 		 */
 	}
 
-	public void CargarPacientes() {
+	public void cargarPacientes() {
 		Date fecha = new Date();
 		listaPaciente = new ArrayList<Paciente>();
 		
@@ -179,7 +186,7 @@ public class Control implements ActionListener {
 				new Paciente("Ayalita (Novio de Sara(la quiere mucho mumumurlkthdf))", "5552", "o+", 56, fecha, 555));
 	}
 
-	public void MostrarVentanaCitas() {
+	public void mostrarVentanaCitas() {
 		DefaultListModel<Paciente> modelo = new DefaultListModel<>();
 
         // Poblar el modelo con el ArrayList

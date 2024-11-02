@@ -1,8 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Profesional {
+public class Profesional implements Serializable {
+	
+	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
+	
 	private String nombre;
 	private String identificacion;
 	private int turnosEnSemana;

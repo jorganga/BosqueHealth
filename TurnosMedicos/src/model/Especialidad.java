@@ -1,6 +1,11 @@
 package model;
 
-public class Especialidad {
+import java.io.Serializable;
+
+public class Especialidad implements Serializable {
+	
+	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
+	
 	private String nombre;
 	private int id;
 	
