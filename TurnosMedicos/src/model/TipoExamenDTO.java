@@ -1,10 +1,10 @@
 package model;
 
-public class TipoExamen {
+public class TipoExamenDTO {
 	private String id;
 	private String nombre;
 
-	public TipoExamen() {
+	public TipoExamenDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,10 +24,14 @@ public class TipoExamen {
 		this.nombre = nombre;
 	}
 
-	public TipoExamen(String id, String nombre) {
+	public TipoExamenDTO(String id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 	}
 
+	@Override
+	public String toString() {
+		return "TipoExamen [id=" + id + ", nombre=" + nombre + "]";
+	}
 }
