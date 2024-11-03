@@ -7,13 +7,17 @@ public class DataMapperTurno {
 	
 	public static Turno TurnoDTOToTurno(TurnoDTO dto) {
 		Turno entity;
-		entity = new Turno(dto.getDoctor(), dto.getFecha(), dto.getHora());
+		entity = new Turno();
+		entity.setId(dto.getId());
+		entity.setDoctor(dto.getDoctor());
+		entity.setFecha(dto.getFecha());
+		entity.setHora(dto.getHora());
 		return entity;
 	}
 
 	public static TurnoDTO TurnoToTurnoDTO(Turno entity) {
 		TurnoDTO dto;
-		dto = new TurnoDTO(null, entity.getDoctor(), entity.getFecha(), entity.getHora());
+		dto = new TurnoDTO(entity.getId(), entity.getDoctor(), entity.getFecha(), entity.getHora());
 		return dto;
 	}
 
@@ -21,7 +25,7 @@ public class DataMapperTurno {
 		(ArrayList<Turno> entityList) {
 		ArrayList<TurnoDTO> dtoList = new ArrayList<>();
 		for (Turno m : entityList) {
-			dtoList.add(new TurnoDTO(null, m.getDoctor(), m.getFecha(), m.getHora()));
+			dtoList.add(new TurnoDTO(m.getId(), m.getDoctor(), m.getFecha(), m.getHora()));
 		}
 		return dtoList;
 	}

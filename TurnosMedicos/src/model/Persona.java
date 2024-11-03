@@ -1,6 +1,9 @@
 package model;
 
-public class Persona {
+import java.io.Serializable;
+
+public class Persona implements Serializable {
+	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
 	private String nombre;
 	private String identificacion;
 	

@@ -14,6 +14,7 @@ public class Turno  implements Serializable {
 	private Profesional doctor;
 	private LocalDate fecha;
 	private LocalTime hora;
+	private boolean libre;
 	
 	public Turno() {
 		// TODO Auto-generated constructor stub
@@ -38,6 +39,7 @@ public class Turno  implements Serializable {
 		this.fecha = fecha;
 		this.id = UUID.randomUUID().toString();
 		this.hora =  hora;
+		this.libre = true;
 	}
 	
 	public void setId(String id) {
@@ -54,6 +56,14 @@ public class Turno  implements Serializable {
 	}
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
+	}
+
+	public boolean isLibre() {
+		return libre;
+	}
+
+	public void setLibre(boolean libre) {
+		this.libre = libre;
 	}
 	
 }

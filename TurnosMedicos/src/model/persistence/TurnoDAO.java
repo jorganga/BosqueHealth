@@ -1,6 +1,7 @@
 package model.persistence;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import model.persistence.FileHandler;
 import model.Turno;
@@ -9,6 +10,9 @@ import model.TurnoDTO;
 public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 	
 	private ArrayList<Turno> listaTurno;
+	private ArrayList<Turno> listaTurnoActivos;
+	
+	
 	private final String FILE_NAME = "turno.csv"; // csv: excel txt: texto docx:word
 	private final String SERIAL_NAME = "turno.bin"; // .dat o .bin
 	
@@ -34,6 +38,13 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 	public ArrayList<Turno> getListaTurno() {
 		return listaTurno;
 	}
+	
+	public ArrayList<Turno> getListaTurnoActiva() {
+		
+		listaTurnoActivos =  listaTurno.stream().filter(tur -> tur.isLibre()).collect(Collectors.toCollection(ArrayList::new));
+		return listaTurnoActivos;
+	}
+	
 
 	public void setListaTurno(ArrayList<Turno> listaTurno) {
 		this.listaTurno = listaTurno;
@@ -42,6 +53,10 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 	@Override
 	public ArrayList<TurnoDTO> getAll() {
 		return DataMapperTurno.listaTurnoToListaTurnoDTO(listaTurno);
+	}
+	
+	public ArrayList<TurnoDTO> getAllActivos() {
+		return DataMapperTurno.listaTurnoToListaTurnoDTO(listaTurnoActivos);
 	}
 	
 	
@@ -74,14 +89,29 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 
 	@Override
 	public Turno find(Turno toFind) {
-		// TODO Auto-generated method stub
-		return null;
+		if (listaTurno != null) {
+			return listaTurno.stream()
+		            .filter(p -> p.getId().equals(toFind.getId()))
+		            .findFirst()                        
+		            .orElse(null);	
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
 	public boolean update(TurnoDTO previous, TurnoDTO newData) {
-		// TODO Auto-generated method stub
-		return false;
+		if (find(DataMapperTurno.TurnoDTOToTurno(previous)) != null) {
+			listaTurno.remove(find(DataMapperTurno.TurnoDTOToTurno(previous)));
+			listaTurno.add(DataMapperTurno.TurnoDTOToTurno(newData));
+			
+			//writeFile();
+			writeSerializable();
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void writeFile() {
@@ -116,8 +146,10 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 		Object content = FileHandler.readSerializable(SERIAL_NAME);
 		if (content == null) {
 			listaTurno = new ArrayList<>();
+			listaTurnoActivos = new ArrayList<Turno>();
 		} else {
-			listaTurno = (ArrayList<Turno>) content;
+			listaTurno = (ArrayList<Turno>)content;
+			listaTurnoActivos =  listaTurno.stream().filter(tur -> tur.isLibre()).collect(Collectors.toCollection(ArrayList::new));
 		}
 	}
 	

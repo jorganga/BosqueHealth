@@ -16,6 +16,7 @@ public class VentanaPrincipal extends JFrame {
 	public JButton btnAsignarTurnos;
 	public JButton btnReporteTurnos;
 	public JButton btnCita;
+	public JButton btnMostrarCita;
 
 	/**
 	 * Launch the application.
@@ -60,5 +61,9 @@ public class VentanaPrincipal extends JFrame {
 		btnCita = new JButton("Citas");
 		btnCita.setBounds(44, 149, 143, 48);
 		contentPane.add(btnCita);
+		
+		btnMostrarCita = new JButton("Mostrar Citas");
+		btnMostrarCita.setBounds(44, 208, 143, 48);
+		contentPane.add(btnMostrarCita);
 	}
 }

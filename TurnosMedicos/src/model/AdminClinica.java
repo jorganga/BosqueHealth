@@ -143,7 +143,8 @@ public class AdminClinica {
 		    turnosEspecialidad.addAll(turnero.getListaTurnos());
 		}
 		
-		dao.setListaTurno(turnosEspecialidad);
+		listaTurnos.addAll(turnosEspecialidad);
+		dao.setListaTurno(listaTurnos);
 	    dao.writeSerializable();
 		
 		return "Turnos Generados Exitosamente!";

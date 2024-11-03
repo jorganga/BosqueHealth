@@ -45,7 +45,7 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 	public boolean add(CitaDTO newData) {
 		if (find(DataMapperCita.CitaDTOToCita(newData)) == null) {
 			listaCitas.add(DataMapperCita.CitaDTOToCita(newData));
-			writeFile();
+			//writeFile();
 			writeSerializable();
 			return true;
 		} else {

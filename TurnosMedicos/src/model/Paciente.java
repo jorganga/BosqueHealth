@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Paciente extends Persona {
+public class Paciente extends Persona implements Serializable {
+	private static final long serialVersionUID = 69379036953212014L; // Solo los que tienen la misma version pueden
 	private String tipoSangre;
 	private int peso;
 	private Date fechaNacimiento;
