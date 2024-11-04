@@ -1,22 +1,27 @@
 package model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
-public class Paciente extends Persona {
+public class Paciente extends Persona implements Serializable {
+	private static final long serialVersionUID = 69379036953212014L;
 	private String tipoSangre;
 	private int peso;
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 
 	public Paciente() {
 
 	}
-
-	public Paciente(String identificacion, String nombre, String tipoSangre, int peso, Date fechaNacimiento) {
-		super(nombre, identificacion);
+	
+	public Paciente(String nombre, String identificacion, String email, String tipoSangre, int peso,
+			LocalDate fechaNacimiento) {
+		super(nombre, identificacion, email);
 		this.tipoSangre = tipoSangre;
 		this.peso = peso;
 		this.fechaNacimiento = fechaNacimiento;
 	}
+
 
 	public String getTipoSangre() {
 		return tipoSangre;
@@ -34,11 +39,11 @@ public class Paciente extends Persona {
 		this.peso = peso;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

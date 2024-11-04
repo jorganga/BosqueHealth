@@ -1,19 +1,19 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class PacienteDTO extends Persona {
 	private String tipoSangre;
 	private int peso;
-	private Date fechaNacimiento;
-	private String identificacion;
-	private String nombre;
+	private LocalDate fechaNacimiento;
 	public PacienteDTO() {
 
 	}
 
-	public PacienteDTO(String identificacion, String nombre, String tipoSangre, int peso, Date fechaNacimiento) {
-		super(nombre, identificacion);
+	public PacienteDTO(String nombre, String identificacion, String email, String tipoSangre, int peso,
+			LocalDate fechaNacimiento) {
+		super(nombre, identificacion, email);
 		this.tipoSangre = tipoSangre;
 		this.peso = peso;
 		this.fechaNacimiento = fechaNacimiento;
@@ -35,33 +35,19 @@ public class PacienteDTO extends Persona {
 		this.peso = peso;
 	}
 	
-	public String getIdentificacion() {
-		return identificacion;
-	}
-
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
-	}
-
-	public Date getFechaNacimiento() {
+	
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 
 	@Override
 	public String toString() {
-		return "identificacion=" + identificacion + ", nombre=" + nombre + ", tipoSangre=" +  tipoSangre + 
+		return "identificacion=" + super.getIdentificacion() + ", nombre=" + super.getNombre() + ", tipoSangre=" +  tipoSangre + 
 				", peso=" + peso + ", fechaNacimiento=" + fechaNacimiento;
 	}
 

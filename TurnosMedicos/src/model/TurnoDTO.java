@@ -9,6 +9,7 @@ public class TurnoDTO {
 	private Profesional doctor;
 	private LocalDate fecha;
 	private LocalTime hora;
+	private boolean libre;
 
 	public TurnoDTO() {
 		// TODO Auto-generated constructor stub
@@ -21,6 +22,14 @@ public class TurnoDTO {
 		this.fecha = fecha;
 		this.hora = hora;
 		
+	}
+
+	public boolean isLibre() {
+		return libre;
+	}
+
+	public void setLibre(boolean libre) {
+		this.libre = libre;
 	}
 
 	public String getId() {

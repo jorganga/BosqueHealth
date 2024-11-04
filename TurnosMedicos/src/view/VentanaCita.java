@@ -21,9 +21,8 @@ public class VentanaCita extends JFrame {
 	public JTable tableTurnos;
 	public JList listaPacientes;
 	public JComboBox cboxEspecialidad;
-	/**
-	 * Launch the application.
-	 */
+	public JButton btnCrearCita;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -37,9 +36,6 @@ public class VentanaCita extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public VentanaCita() {
 		setBounds(100, 100, 900, 600);
 		contentPane = new JPanel();
@@ -49,7 +45,7 @@ public class VentanaCita extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(230, 34, 523, 290);
+		scrollPane.setBounds(230, 34, 644, 290);
 		contentPane.add(scrollPane);
 		
 		tableTurnos = new JTable();
@@ -62,5 +58,9 @@ public class VentanaCita extends JFrame {
 		cboxEspecialidad = new JComboBox();
 		cboxEspecialidad.setBounds(230, 11, 149, 22);
 		contentPane.add(cboxEspecialidad);
+		
+		btnCrearCita = new JButton("Crear Cita");
+		btnCrearCita.setBounds(230, 346, 188, 23);
+		contentPane.add(btnCrearCita);
 	}
 }

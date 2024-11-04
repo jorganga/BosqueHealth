@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdminCita {
+import model.persistence.*;
 
+public class AdminCita {
+	private CitaDAO dao;
 	private ArrayList<Cita> listaCitas;
 
 	public AdminCita() {
 		// TODO Auto-generated constructor stub
 		listaCitas = new ArrayList<Cita>();
+		dao = new CitaDAO();
 	}
 
 	public ArrayList<Turno> ListarTurnosEspecialidad(int idEspecialidad) {
@@ -34,11 +37,24 @@ public class AdminCita {
 		return (ArrayList<Cita>)listaCitasEspecialista;
 	}
 	
-	public void CrearCita(Turno miTurno, Paciente miPaciente) {
+	public void CrearCita(String idTurno, Paciente miPaciente) {
 
-		Cita laCita = new Cita(miTurno, miPaciente, "activo");
-		listaCitas.add(laCita);
-
+		TurnoDAO daoTurno = new TurnoDAO();
+		TurnoDTO turnoModificado = new TurnoDTO(); 
+		
+		Turno turno = new Turno();
+		turno.setId(idTurno);
+		
+		Turno turnoSeleccionado = daoTurno.find(turno);
+		TurnoDTO turnoOriginal = DataMapperTurno.TurnoToTurnoDTO(turnoSeleccionado); 
+		
+		CitaDTO laCita = new CitaDTO(turnoSeleccionado, miPaciente, "activo");
+		dao.add(laCita);
+		
+		turnoModificado = DataMapperTurno.TurnoToTurnoDTO(turnoSeleccionado);
+		turnoModificado.setLibre(false);
+		
+		daoTurno.update(turnoOriginal, turnoModificado);
 	}
 
 	public ArrayList<Cita> getListaCitas() {

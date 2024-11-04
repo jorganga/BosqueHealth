@@ -16,26 +16,6 @@ public class VentanaAsignarTurnos extends JFrame {
 	public JButton btnGenerarTurnos;
 	public JComboBox cboxPeriodo;
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaAsignarTurnos frame = new VentanaAsignarTurnos();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public VentanaAsignarTurnos() {
 		setTitle("Generar Turnos para Especialistas");
 		setBounds(100, 100, 260, 258);

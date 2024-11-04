@@ -3,37 +3,30 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Profesional implements Serializable {
+public class Profesional extends Persona implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
 	
-	private String nombre;
-	private String identificacion;
 	private int turnosEnSemana;
 	private LocalDate fechaUltimoTurno;
 	private int numeroSemana;
 	private Especialidad especialidad;
+	private boolean esDirector;
+	private String clave;
 	
-	public Profesional(String nombre, String identificacion, Especialidad especialidadDr) {
-		super();
-		this.nombre = nombre;
-		this.identificacion = identificacion;
-		this.turnosEnSemana = 0;
-		this.numeroSemana = 0;
-		this.especialidad = especialidadDr;
+	
+		
+	public Profesional(String nombre, String identificacion, String email, int turnosEnSemana,
+			LocalDate fechaUltimoTurno, int numeroSemana, Especialidad especialidad, boolean esDirector, String clave) {
+		super(nombre, identificacion, email);
+		this.turnosEnSemana = turnosEnSemana;
+		this.fechaUltimoTurno = fechaUltimoTurno;
+		this.numeroSemana = numeroSemana;
+		this.especialidad = especialidad;
+		this.esDirector = esDirector;
+		this.clave = clave;
 	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getIdentificacion() {
-		return identificacion;
-	}
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
-	}
+
 	public int getTurnosEnSemana() {
 		return turnosEnSemana;
 	}
@@ -59,6 +52,16 @@ public class Profesional implements Serializable {
 	public void setEspecialidad(Especialidad especialidad) {
 		this.especialidad = especialidad;
 	}
-	
-
+	public boolean isEsDirector() {
+		return esDirector;
+	}
+	public void setEsDirector(boolean esDirector) {
+		this.esDirector = esDirector;
+	}
+	public String getClave() {
+		return clave;
+	}
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
 }
