@@ -37,7 +37,7 @@ public class VentanaTurnos extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaTurnos() {
-		setBounds(100, 100, 657, 427);
+		setBounds(100, 100, 665, 428);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
