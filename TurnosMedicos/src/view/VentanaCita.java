@@ -22,9 +22,7 @@ public class VentanaCita extends JFrame {
 	public JList listaPacientes;
 	public JComboBox cboxEspecialidad;
 	public JButton btnCrearCita;
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -38,9 +36,6 @@ public class VentanaCita extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public VentanaCita() {
 		setBounds(100, 100, 900, 600);
 		contentPane = new JPanel();

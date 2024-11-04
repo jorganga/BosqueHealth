@@ -38,7 +38,7 @@ public class Turnero {
 		this.listaTurnos = listaTurnos;
 	}
 
-	public void AsignarTurnos(LocalDate fecha) {
+	public void asignarTurnos(LocalDate fecha) {
 
 		Profesional doctorTurno = null;
 		LocalDate fechaIncremento = fecha;
@@ -68,8 +68,8 @@ public class Turnero {
 					doctorValido = true;
 				} else {
 					doctorTurno = listaDeDoctores.get(indiceDoctor);
-					if (DoctorDisponible(doctorTurno, fechaIncremento)) {
-						CrearTurno(doctorTurno, fechaIncremento);
+					if (doctorDisponible(doctorTurno, fechaIncremento)) {
+						crearTurno(doctorTurno, fechaIncremento);
 						fechaIncremento = fecha.plusDays(i);
 						doctorValido = true;
 						drNoDisponible = 0;
@@ -84,7 +84,7 @@ public class Turnero {
 		}
 	}
 
-	private boolean DoctorDisponible(Profesional doctor, LocalDate fechaTurno) {
+	private boolean doctorDisponible(Profesional doctor, LocalDate fechaTurno) {
 		boolean disponible = false;
 		long dias = 0;
 		int numeroSemanaDoctor = 0;
@@ -92,7 +92,7 @@ public class Turnero {
 		Date fechaDoctor = null;
 		Date fechaActual = TransformarFecha(fechaTurno);
 
-		int numeroSemanaActual = ObtenerSemanaFecha(fechaActual);
+		int numeroSemanaActual = obtenerSemanaFecha(fechaActual);
 
 		if (doctor.getFechaUltimoTurno() != null) {
 			fechaDoctor = TransformarFecha(doctor.getFechaUltimoTurno());
@@ -101,7 +101,7 @@ public class Turnero {
 			if (dias > 1) {
 				// valida si ya tiene mas de dos turnos en la misma semana
 
-				numeroSemanaDoctor = ObtenerSemanaFecha(fechaDoctor);
+				numeroSemanaDoctor = obtenerSemanaFecha(fechaDoctor);
 
 				if (numeroSemanaActual == numeroSemanaDoctor) {
 					if (doctor.getTurnosEnSemana() < 2) {
@@ -124,7 +124,7 @@ public class Turnero {
 		return Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
-	private int ObtenerSemanaFecha(Date fecha) {
+	private int obtenerSemanaFecha(Date fecha) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setFirstDayOfWeek(Calendar.SUNDAY);
 
@@ -133,7 +133,7 @@ public class Turnero {
 		return calendar.get(Calendar.WEEK_OF_YEAR);
 	}
 
-	private int ObtenerSemanaFecha(LocalDate fecha) {
+	private int obtenerSemanaFecha(LocalDate fecha) {
 
 		ZoneId defaultZoneId = ZoneId.systemDefault();
 		Calendar calendar = Calendar.getInstance();
@@ -146,14 +146,14 @@ public class Turnero {
 		return calendar.get(Calendar.WEEK_OF_YEAR);
 	}
 
-	private void CrearTurno(Profesional doctor, LocalDate fechaTurno) {
+	private void crearTurno(Profesional doctor, LocalDate fechaTurno) {
 		int numeroSemanaDoctor = 0;
 
-		int numeroSemanaTurno = ObtenerSemanaFecha(fechaTurno);
+		int numeroSemanaTurno = obtenerSemanaFecha(fechaTurno);
 
 		if (doctor.getFechaUltimoTurno() != null) {
 
-			numeroSemanaDoctor = ObtenerSemanaFecha(doctor.getFechaUltimoTurno());
+			numeroSemanaDoctor = obtenerSemanaFecha(doctor.getFechaUltimoTurno());
 			// calendar.setTime(doctor.getFechaUltimoTurno());
 		}
 		if (numeroSemanaDoctor == numeroSemanaTurno) {

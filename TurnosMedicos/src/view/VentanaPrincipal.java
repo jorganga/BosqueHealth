@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -17,26 +19,8 @@ public class VentanaPrincipal extends JFrame {
 	public JButton btnReporteTurnos;
 	public JButton btnCita;
 	public JButton btnMostrarCita;
+	public JLabel lblBienvenido;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public VentanaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 532, 422);
@@ -51,19 +35,24 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAsignarTurnos.setBounds(44, 37, 143, 42);
+		btnAsignarTurnos.setBounds(44, 56, 143, 42);
 		contentPane.add(btnAsignarTurnos);
 		
 		btnReporteTurnos = new JButton("Reporte Turnos");
-		btnReporteTurnos.setBounds(44, 90, 143, 48);
+		btnReporteTurnos.setBounds(44, 109, 143, 48);
 		contentPane.add(btnReporteTurnos);
 		
 		btnCita = new JButton("Citas");
-		btnCita.setBounds(44, 149, 143, 48);
+		btnCita.setBounds(44, 168, 143, 48);
 		contentPane.add(btnCita);
 		
 		btnMostrarCita = new JButton("Mostrar Citas");
-		btnMostrarCita.setBounds(44, 208, 143, 48);
+		btnMostrarCita.setBounds(44, 227, 143, 48);
 		contentPane.add(btnMostrarCita);
+		
+		lblBienvenido = new JLabel("Bienvenido xxxx");
+		lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblBienvenido.setBounds(44, 12, 426, 33);
+		contentPane.add(lblBienvenido);
 	}
 }
