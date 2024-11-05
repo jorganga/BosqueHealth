@@ -12,6 +12,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import javax.swing.ComboBoxModel;
@@ -49,9 +51,10 @@ public class Control implements ActionListener {
 	Reporte reporteTurnos;
 	CitaDAO citaDao;
 	Profesional userActivo;
-
 	AdminClinica administrador;
 	AdminProfesional adminProfesional;
+	Timer timer;
+	
 	private ModelFacade mf;
 
 	public Control() {
@@ -61,11 +64,10 @@ public class Control implements ActionListener {
 
 	public void Funcionar() {
 
-		/*
-		 * EmailSender email = new EmailSender();
-		 * email.EnviarMailGmail("jor_angulo@yahoo.es", "test mail java",
-		 * "Prueba de mensaje con java email Nico");
-		 */
+		
+		//Email email = new Email("Prueba email Bosque Health", "jor_angulo@yahoo.es", "Este es un mensaje de prueba sin formato");
+		//email.EnviarMail();
+		 
 		ventanaLogin = new VentanaLogin(); 
 		ventanaPrincipal = new VentanaPrincipal();
 		ventanaTurnos = new VentanaTurnos();
@@ -85,20 +87,35 @@ public class Control implements ActionListener {
 
 		ventanaCita.btnCrearCita.addActionListener(this);
 
-		administrador = new AdminClinica();
 		adminProfesional = new AdminProfesional();
-
+		
+		administrador = new AdminClinica(null);
 		administrador.cargarEspecialidades();
 
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
-		
-		ventanaLogin.setVisible(true);
 
-		cargarPacientes();
-		cargarTurnos();
+		ventanaLogin.setVisible(true);		
+				
+		timer = new Timer();
+		startTimer();
+		
 	}
 
+	
+	public void startTimer() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Tarea ejecutada a: " + System.currentTimeMillis());
+            }
+        };
+
+        // Programar la tarea para que se ejecute cada 60,000 ms (1 minuto)
+        timer.scheduleAtFixedRate(task, 0, 10000);
+        //return "Temporizador iniciado, ejecutándose cada minuto.";
+    }
+	
 	private void mostrarVentanaAsignarTurnos() {
 
 		if (ventanaAsignarTurnos.cboxPeriodo.getItemCount() == 0) {
@@ -261,6 +278,9 @@ public class Control implements ActionListener {
 			userActivo = adminProfesional.getUsuarioLogeado();
 			ventanaPrincipal.lblBienvenido.setText("Bienvenido " + userActivo.getNombre());
 			mostrarControlesDirector(userActivo.isEsDirector());
+			
+			cargarDatosClinica();
+			
 		}
 		else
 		{
@@ -274,6 +294,12 @@ public class Control implements ActionListener {
 	}
 	
 	
+	private void cargarDatosClinica() {		
+		administrador.setUserActivo(userActivo);
+		cargarPacientes();
+		cargarTurnos();
+
+	}
 	
 
 }

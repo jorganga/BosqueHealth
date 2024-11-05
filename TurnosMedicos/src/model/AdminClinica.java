@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -18,11 +19,20 @@ public class AdminClinica {
 	ArrayList<Turno> listaTurnos;
 	TurnoDAO dao;
 	
-	public AdminClinica() {
+	private  Profesional userActivo;
+	
+	public Profesional getUserActivo() {
+		return userActivo;
+	}
+	public void setUserActivo(Profesional userActivo) {
+		this.userActivo = userActivo;
+	}
+	public AdminClinica(Profesional usuario) {
 		// TODO Auto-generated constructor stub
 		listaEspecialidades = new ArrayList<Especialidad>();
 		listaTurnos = new ArrayList<Turno>();
 		dao = new TurnoDAO();
+		userActivo = usuario;
 	}
 	public ArrayList<Especialidad> getListaEspecialidades() {
 		return listaEspecialidades;
@@ -51,10 +61,6 @@ public class AdminClinica {
 		listaEspecialidades.add(especialidad);
 	}
 	
-		
-	
-
-	
 	public String generarTurnos(LocalDate fechaMes, ArrayList<Profesional> listaDoctores) {
 		Turnero turnero = new Turnero();
 		List<Profesional> listaFiltrada;
@@ -76,7 +82,26 @@ public class AdminClinica {
 		dao.setListaTurno(listaTurnos);
 	    dao.writeSerializable();
 		
+	    notificarTurnosGenerados(turnosEspecialidad);
+	    
 		return "Turnos Generados Exitosamente!";
+	}
+	
+	private void notificarTurnosGenerados(ArrayList<Turno> turnosGenerados) {
+		String mensaje = "Dr " + userActivo.getNombre()  + "\r\n Estos son los turnos del mes\r\n";
+		List<Turno> listaTurnosDia = turnosGenerados.stream().filter(tur -> tur.getHora().equals(LocalTime.of(0, 0))).collect(Collectors.toList());
+		
+		LocalDate fechaActiva = null;
+		boolean cambioFecha = false;
+		for(Turno turnoDia:listaTurnosDia) {
+			mensaje = mensaje + "Fecha: " + turnoDia.getFecha() + ", ";
+			mensaje = mensaje + "Especialidad "+ turnoDia.getDoctor().getEspecialidad().getNombre() + ", ";
+			mensaje = mensaje + "Profesional "+ turnoDia.getDoctor().getNombre() + "\r\n";		
+		}
+		
+		Email email = new Email("Turnos Generados", userActivo.getEmail(), mensaje);
+		email.EnviarMail();
+		System.out.println("Email de turnos enviado a: " + email.getDestinatario());
 	}
 	
 	private boolean turnosYaGenerados(LocalDate fechaMes) {
