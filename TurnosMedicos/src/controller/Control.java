@@ -52,6 +52,7 @@ public class Control implements ActionListener {
 	CitaDAO citaDao;
 	Profesional userActivo;
 	AdminClinica administrador;
+	AdminCita adminCita;
 	AdminProfesional adminProfesional;
 	Timer timer;
 	
@@ -91,6 +92,8 @@ public class Control implements ActionListener {
 		
 		administrador = new AdminClinica(null);
 		administrador.cargarEspecialidades();
+		
+		adminCita = new AdminCita();
 
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
@@ -99,7 +102,7 @@ public class Control implements ActionListener {
 				
 		timer = new Timer();
 		startTimer();
-		
+		//enviarEmailsRecordarCitas();
 	}
 
 	
@@ -108,12 +111,12 @@ public class Control implements ActionListener {
             @Override
             public void run() {
                 System.out.println("Tarea ejecutada a: " + System.currentTimeMillis());
+                enviarEmailsRecordarCitas();
             }
         };
 
         // Programar la tarea para que se ejecute cada 60,000 ms (1 minuto)
         timer.scheduleAtFixedRate(task, 0, 10000);
-        //return "Temporizador iniciado, ejecutándose cada minuto.";
     }
 	
 	private void mostrarVentanaAsignarTurnos() {
@@ -242,19 +245,16 @@ public class Control implements ActionListener {
 	}
 
 	private boolean agendarCita(String idTurno, Paciente pac) {
-		AdminCita admiCita = new AdminCita();
 		try {
-			admiCita.CrearCita(idTurno, pac);
+			adminCita.CrearCita(idTurno, pac);
 			return true;
 		} catch (Exception ex) {
 			return false;
 		}
-
 	}
 
 	private void mostrarVentanaMostrarCita() {
-		citaDao = new CitaDAO();
-		listaCitas = citaDao.getAll();
+		listaCitas = adminCita.ListarCitas();
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
 		ventanaMCita.setVisible(true);
@@ -299,6 +299,10 @@ public class Control implements ActionListener {
 		cargarPacientes();
 		cargarTurnos();
 
+	}
+	
+	private void enviarEmailsRecordarCitas() {
+		adminCita.enviarEmailsRecordarCitas();
 	}
 	
 

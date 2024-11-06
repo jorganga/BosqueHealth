@@ -9,6 +9,7 @@ public class Cita implements Serializable {
 	
 	private Turno turnito;
 	private String id;
+	private boolean envioRecordatorio;
 	public String getId() {
 		return id;
 	}
@@ -24,13 +25,21 @@ public class Cita implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cita(Turno turnito, Paciente paciente, String estado) {
+	public boolean isEnvioRecordatorio() {
+		return envioRecordatorio;
+	}
+
+	public void setEnvioRecordatorio(boolean envioRecordatorio) {
+		this.envioRecordatorio = envioRecordatorio;
+	}
+
+	public Cita(Turno turnito, Paciente paciente, String estado, boolean envioRecordatorio) {
 		super();
 		this.turnito = turnito;
 		this.paciente = paciente;
 		this.estado = estado;
+		this.envioRecordatorio = envioRecordatorio;
 		this.id = UUID.randomUUID().toString();
-
 	}
 
 	public Turno getTurnito() {

@@ -125,6 +125,7 @@ public class FileHandler {
 			prop.load(new FileInputStream(CONFIG_FOLER_NAME + "/" + url));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			archivo = new File(FOLDER_NAME + "/" + url);
 			System.out.println("El archivo y la url no existen");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

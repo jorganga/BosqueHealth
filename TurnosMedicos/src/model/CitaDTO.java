@@ -5,6 +5,8 @@ import java.util.UUID;
 public class CitaDTO {
 	private Turno turnito;
 	private String id;
+	private boolean envioRecordatorio;
+	
 	public String getId() {
 		return id;
 	}
@@ -19,14 +21,22 @@ public class CitaDTO {
 	public CitaDTO() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public boolean isEnvioRecordatorio() {
+		return envioRecordatorio;
+	}
 
-	public CitaDTO(Turno turnito, Paciente paciente, String estado) {
+	public void setEnvioRecordatorio(boolean envioRecordatorio) {
+		this.envioRecordatorio = envioRecordatorio;
+	}
+
+	public CitaDTO(String id, Turno turnito, Paciente paciente, String estado, boolean envioRecordatorio) {
 		super();
 		this.turnito = turnito;
 		this.paciente = paciente;
 		this.estado = estado;
-		this.id = UUID.randomUUID().toString();
-
+		this.id = id;
+		this.envioRecordatorio = envioRecordatorio;
 	}
 
 	public Turno getTurnito() {

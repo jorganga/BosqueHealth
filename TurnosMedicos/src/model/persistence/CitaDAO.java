@@ -92,7 +92,7 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 		if (found != null) {
 			listaCitas.remove(found);
 			listaCitas.add(DataMapperCita.CitaDTOToCita(newData));
-			writeFile();
+			//writeFile();
 			writeSerializable();
 			return true;
 		} else {
