@@ -73,9 +73,12 @@ public class AdminClinica {
 		
 		for(Especialidad especia:listaEspecialidades) {
 			listaFiltrada =  listaDoctores.stream().filter(per -> per.getEspecialidad().getNombre().equals(especia.getNombre())).collect(Collectors.toList());
-		    turnero.setListaDeDoctores((ArrayList<Profesional>)listaFiltrada); 
-		    turnero.asignarTurnos(fechaMes);
-		    turnosEspecialidad.addAll(turnero.getListaTurnos());
+		    if (listaFiltrada.size() > 0) {
+		    	turnero = new Turnero();
+		    	turnero.setListaDeDoctores((ArrayList<Profesional>)listaFiltrada);
+		    	turnero.asignarTurnos(fechaMes);
+		    	turnosEspecialidad.addAll(turnero.getListaTurnos());
+		    }
 		}
 		
 		listaTurnos.addAll(turnosEspecialidad);

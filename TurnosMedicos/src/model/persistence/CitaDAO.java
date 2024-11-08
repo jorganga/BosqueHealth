@@ -1,6 +1,7 @@
 package model.persistence;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import model.Cita;
 import model.CitaDTO;
@@ -11,6 +12,7 @@ import model.Turno;
 public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 
 	private ArrayList<Cita> listaCitas;
+	private ArrayList<Cita> listaCitasActivas;
 	private final String FILE_NAME = "cita.csv"; // csv: excel txt: texto docx:word
 	private final String SERIAL_NAME = "cita.bin"; // .dat o .bin
 	
@@ -39,6 +41,11 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 	public ArrayList<CitaDTO> getAll() {
 		return DataMapperCita.listaCitaToListaCitaDTO(listaCitas);
 
+	}
+	
+	public ArrayList<CitaDTO> getAllActiva() {
+		return DataMapperCita.listaCitaToListaCitaDTO(listaCitasActivas);
+		
 	}
 
 	@Override
@@ -132,8 +139,10 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 		Object content = FileHandler.readSerializable(SERIAL_NAME);
 		if (content == null) {
 			listaCitas = new ArrayList<>();
+			listaCitasActivas = new ArrayList<>();
 		} else {
 			listaCitas = (ArrayList<Cita>) content;
+			listaCitasActivas =  listaCitas.stream().filter(cit -> cit.getEstado().equals("activo")).collect(Collectors.toCollection(ArrayList::new));
 		}
 	}
 
