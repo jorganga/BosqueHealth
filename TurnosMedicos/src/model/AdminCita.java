@@ -8,20 +8,23 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 import model.persistence.*;
+import java.util.Comparator;
 
 public class AdminCita {
 	private CitaDAO dao;
 	private ArrayList<Cita> listaCitas;
 	Properties properties;
+	private boolean citasDiaSiguientesNotificadas;
 	
 	public AdminCita() {
 		// TODO Auto-generated constructor stub
 		listaCitas = new ArrayList<Cita>();
 		dao = new CitaDAO();
+		properties = FileHandler.loadProperties("config.properties");
 	}
 
 
-	public ArrayList<Turno> ListarTurnosEspecialidad(int idEspecialidad) {
+	public ArrayList<Turno> listarTurnosEspecialidad(int idEspecialidad) {
 
 		Turnero turnerito = new Turnero();
 		ArrayList<Turno> listaTurnoClinica = turnerito.getListaTurnos();
@@ -32,17 +35,15 @@ public class AdminCita {
 		return (ArrayList<Turno>) listaEspecialidad;
 	}
 	
-	public ArrayList<CitaDTO> ListarCitas(){
+	public ArrayList<CitaDTO> listarCitas(){
 		CitaDAO citaDao = new CitaDAO();
 		return citaDao.getAll();
 	}
 	
-	private ArrayList<CitaDTO> ListarCitasRecordatorio(){
+	private ArrayList<CitaDTO> listarCitasRecordatorio(){
 		CitaDAO citaDao = new CitaDAO();
 		ArrayList<CitaDTO> listaCitasAll = citaDao.getAll();
-		 
-		properties = FileHandler.loadProperties("config.properties");
-        
+		
         int diasRecordatorio = Integer.parseInt(properties.getProperty("cita.diasRecordatorio"));
         LocalDate fechaMaximaCitaRecordar = LocalDate.now();
         
@@ -55,15 +56,91 @@ public class AdminCita {
         
 	}
 	
+	public void enviarEmailsCitasDiaSiguiente(ArrayList<Profesional> listaDoctores){
+		if (!isEnviarCitasDiaSiguiente())
+		{
+			return;
+		}
+		
+		notificarCitasDiaSiguiente(listaDoctores);
+		
+		System.out.println("Email de citas dia siguiente ");
+		citasDiaSiguientesNotificadas = true;
+	}
+	
+	private boolean isEnviarCitasDiaSiguiente() {
+		int hora = Integer.parseInt(properties.getProperty("cita.horaNotificarCitasDiaSiguiente.hora"));
+		int minuto = Integer.parseInt(properties.getProperty("cita.horaNotificarCitasDiaSiguiente.minuto"));
+		LocalTime horaActual = LocalTime.now();
+		
+		
+		if (citasDiaSiguientesNotificadas)
+		{
+			return false;
+		}
+		
+		if (horaActual.getHour() != hora)
+		{
+			return false;
+		}
+		
+		if (horaActual.getMinute() != minuto)
+		{
+			return false;
+		}
+		
+		return true;
+	} 
+
+	
+	private void notificarCitasDiaSiguiente(ArrayList<Profesional> listaProfesionales){
+		CitaDAO citaDao = new CitaDAO();
+		ArrayList<CitaDTO> listaCitasAll = citaDao.getAllActiva();
+		ArrayList<CitaDTO> listaCitasRecordar;
+		
+		for (Profesional medico : listaProfesionales) {
+			listaCitasRecordar = listaCitasAll.stream().
+	        		filter(cita -> cita.getTurnito().getFecha().equals(LocalDate.now().plusDays(1)) &&
+	        			cita.getTurnito().getDoctor().getIdentificacion().equals(medico.getIdentificacion())).
+	        				collect(Collectors.toCollection(ArrayList::new));
+			if (listaCitasRecordar.size() > 0) {
+				
+				//ordenar por hora
+				listaCitasRecordar.sort(Comparator.comparing((CitaDTO cit) -> cit.getTurnito().getHora()));
+				notificarCitasDiaSiguienteProfesional(listaCitasRecordar, medico);
+			}
+		}
+        
+	}
+	
+	private void notificarCitasDiaSiguienteProfesional(ArrayList<CitaDTO> listaCitasProfesional, Profesional medico) {
+		String mensaje = "Dr(ra) " +  medico.getNombre()  + "\r\n\n";
+		LocalDate fecha = listaCitasProfesional.getFirst().getTurnito().getFecha();
+		mensaje = mensaje + "Estas son sus citas para la especialidad " + medico.getEspecialidad().getNombre() + 
+					", para el día " + fecha + "\r\n\n";
+		
+		for (CitaDTO cita : listaCitasProfesional) {
+			mensaje = mensaje + "Paciente: " + cita.getPaciente().getIdentificacion() + "---" + cita.getPaciente().getNombre() + "\r\n";
+			mensaje = mensaje + "Hora: "+ cita.getTurnito().getHora() + "\r\n\n";
+		}
+		
+		Email email = new Email("Bosque Health - Citas " + fecha, medico.getEmail(), mensaje);
+		email.EnviarMail();
+		System.out.println("Email Citas Especialista dia Siguiente - enviado a: " + email.getDestinatario());
+	}
+	
+	
+	
 	public void enviarEmailsRecordarCitas(){
-		ArrayList<CitaDTO> citasNotificar = ListarCitasRecordatorio();
+		ArrayList<CitaDTO> citasNotificar = listarCitasRecordatorio();
 		
 		for(CitaDTO citaRecordar:citasNotificar) {
 			notificarCitaRecordar(citaRecordar);
 		}
 	}
 	
-	public ArrayList<Cita> ListarCitasEspecialista(String idMedico) {
+		
+	public ArrayList<Cita> listarCitasEspecialista(String idMedico) {
 
 		List<Cita> listaCitasEspecialista; 
 		listaCitasEspecialista = listaCitas.stream().filter(cita -> cita.getTurnito().getDoctor().getIdentificacion().equals(idMedico)).collect(Collectors.toList());
@@ -73,7 +150,7 @@ public class AdminCita {
 		return (ArrayList<Cita>)listaCitasEspecialista;
 	}
 	
-	public void CrearCita(String idTurno, Paciente miPaciente) {
+	public void crearCita(String idTurno, Paciente miPaciente) {
 
 		TurnoDAO daoTurno = new TurnoDAO();
 		TurnoDTO turnoModificado = new TurnoDTO(); 
@@ -84,7 +161,9 @@ public class AdminCita {
 		Turno turnoSeleccionado = daoTurno.find(turno);
 		TurnoDTO turnoOriginal = DataMapperTurno.TurnoToTurnoDTO(turnoSeleccionado); 
 		
-		CitaDTO laCita = new CitaDTO("", turnoSeleccionado, miPaciente, "activo", false);
+		Cita nuevaCita = new Cita(turnoSeleccionado, miPaciente, "activo", false);
+		
+		CitaDTO laCita = DataMapperCita.CitaToCitaDTO(nuevaCita);
 		dao.add(laCita);
 		
 		turnoModificado = DataMapperTurno.TurnoToTurnoDTO(turnoSeleccionado);

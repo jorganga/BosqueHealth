@@ -64,8 +64,6 @@ public class Control implements ActionListener {
 	}
 
 	public void Funcionar() {
-
-		
 		//Email email = new Email("Prueba email Bosque Health", "jor_angulo@yahoo.es", "Este es un mensaje de prueba sin formato");
 		//email.EnviarMail();
 		 
@@ -102,7 +100,6 @@ public class Control implements ActionListener {
 				
 		timer = new Timer();
 		startTimer();
-		//enviarEmailsRecordarCitas();
 	}
 
 	
@@ -112,6 +109,7 @@ public class Control implements ActionListener {
             public void run() {
                 System.out.println("Tarea ejecutada a: " + System.currentTimeMillis());
                 enviarEmailsRecordarCitas();
+                enviarEmailsCitaDiaSiguiente();
             }
         };
 
@@ -246,7 +244,7 @@ public class Control implements ActionListener {
 
 	private boolean agendarCita(String idTurno, Paciente pac) {
 		try {
-			adminCita.CrearCita(idTurno, pac);
+			adminCita.crearCita(idTurno, pac);
 			return true;
 		} catch (Exception ex) {
 			return false;
@@ -254,7 +252,7 @@ public class Control implements ActionListener {
 	}
 
 	private void mostrarVentanaMostrarCita() {
-		listaCitas = adminCita.ListarCitas();
+		listaCitas = adminCita.listarCitas();
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
 		ventanaMCita.setVisible(true);
@@ -304,6 +302,12 @@ public class Control implements ActionListener {
 	private void enviarEmailsRecordarCitas() {
 		adminCita.enviarEmailsRecordarCitas();
 	}
+	
+	private void enviarEmailsCitaDiaSiguiente() {
+		adminCita.enviarEmailsCitasDiaSiguiente(listaDeDoctores);
+	}
+	
+	
 	
 
 }
