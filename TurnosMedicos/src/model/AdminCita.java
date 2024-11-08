@@ -129,6 +129,16 @@ public class AdminCita {
 		}
 		
 	}
+	
+	//Funcion para cancelar cita
+	
+	public void cancelarCita(CitaDTO citaCancelar) {
+		citaCancelar.setEstado("cancelada");
+		dao.update(citaCancelar, citaCancelar);
+		
+		
+		
+	}
 
 	public ArrayList<Cita> getListaCitas() {
 		return listaCitas;

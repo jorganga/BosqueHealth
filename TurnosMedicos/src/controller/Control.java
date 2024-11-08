@@ -55,7 +55,7 @@ public class Control implements ActionListener {
 	AdminCita adminCita;
 	AdminProfesional adminProfesional;
 	Timer timer;
-	
+
 	private ModelFacade mf;
 
 	public Control() {
@@ -65,19 +65,19 @@ public class Control implements ActionListener {
 
 	public void Funcionar() {
 
-		
-		//Email email = new Email("Prueba email Bosque Health", "jor_angulo@yahoo.es", "Este es un mensaje de prueba sin formato");
-		//email.EnviarMail();
-		 
-		ventanaLogin = new VentanaLogin(); 
+		// Email email = new Email("Prueba email Bosque Health", "jor_angulo@yahoo.es",
+		// "Este es un mensaje de prueba sin formato");
+		// email.EnviarMail();
+
+		ventanaLogin = new VentanaLogin();
 		ventanaPrincipal = new VentanaPrincipal();
 		ventanaTurnos = new VentanaTurnos();
 		ventanaAsignarTurnos = new VentanaAsignarTurnos();
 		ventanaCita = new VentanaCita();
 		ventanaMCita = new VentanaMostrarCita();
-		
-		ventanaLogin.btnLogin.addActionListener(this);
 
+		ventanaLogin.btnLogin.addActionListener(this);
+		ventanaMCita.btnCancelarCita.addActionListener(this);
 		ventanaPrincipal.btnAsignarTurnos.addActionListener(this);
 		ventanaPrincipal.btnReporteTurnos.addActionListener(this);
 		ventanaPrincipal.btnCita.addActionListener(this);
@@ -89,36 +89,35 @@ public class Control implements ActionListener {
 		ventanaCita.btnCrearCita.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
-		
+
 		administrador = new AdminClinica(null);
 		administrador.cargarEspecialidades();
-		
+
 		adminCita = new AdminCita();
 
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
 
-		ventanaLogin.setVisible(true);		
-				
+		ventanaLogin.setVisible(true);
+
 		timer = new Timer();
 		startTimer();
-		//enviarEmailsRecordarCitas();
+		// enviarEmailsRecordarCitas();
 	}
 
-	
 	public void startTimer() {
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("Tarea ejecutada a: " + System.currentTimeMillis());
-                enviarEmailsRecordarCitas();
-            }
-        };
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("Tarea ejecutada a: " + System.currentTimeMillis());
+				enviarEmailsRecordarCitas();
+			}
+		};
 
-        // Programar la tarea para que se ejecute cada 60,000 ms (1 minuto)
-        timer.scheduleAtFixedRate(task, 0, 10000);
-    }
-	
+		// Programar la tarea para que se ejecute cada 60,000 ms (1 minuto)
+		timer.scheduleAtFixedRate(task, 0, 10000);
+	}
+
 	private void mostrarVentanaAsignarTurnos() {
 
 		if (ventanaAsignarTurnos.cboxPeriodo.getItemCount() == 0) {
@@ -193,6 +192,9 @@ public class Control implements ActionListener {
 		if (ventanaLogin.btnLogin == e.getSource()) {
 			loginUsuario();
 		}
+		if (ventanaMCita.btnCancelarCita == e.getSource()) {
+			
+		}
 	}
 
 	public void cargarPacientes() {
@@ -259,11 +261,10 @@ public class Control implements ActionListener {
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
 		ventanaMCita.setVisible(true);
 	}
-	
-	private void loginUsuario()
-	{
+
+	private void loginUsuario() {
 		String pwd = new String(ventanaLogin.passwordField.getPassword());
-		
+
 		if (ventanaLogin.txtUsuario.getText().equals("")) {
 			showMessageDialog(null, "Ingrese el nombre de usuario!");
 			return;
@@ -278,32 +279,32 @@ public class Control implements ActionListener {
 			userActivo = adminProfesional.getUsuarioLogeado();
 			ventanaPrincipal.lblBienvenido.setText("Bienvenido " + userActivo.getNombre());
 			mostrarControlesDirector(userActivo.isEsDirector());
-			
+
 			cargarDatosClinica();
-			
-		}
-		else
-		{
+
+		} else {
 			showMessageDialog(null, "Acceso Denegado! Revise los datos ingresados");
 			return;
 		}
 	}
-	
+
 	private void mostrarControlesDirector(boolean esDirector) {
 		ventanaPrincipal.btnAsignarTurnos.setVisible(esDirector);
 	}
-	
-	
-	private void cargarDatosClinica() {		
+
+	private void cargarDatosClinica() {
 		administrador.setUserActivo(userActivo);
 		cargarPacientes();
 		cargarTurnos();
 
 	}
-	
+
 	private void enviarEmailsRecordarCitas() {
 		adminCita.enviarEmailsRecordarCitas();
 	}
 	
+	private void cancelarCita() {
+		
+	}
 
 }
