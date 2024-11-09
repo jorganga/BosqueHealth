@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -16,13 +17,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
 
+import javax.mail.MessageAware;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
-
 import model.*;
 import model.persistence.CitaDAO;
 import model.persistence.TurnoDAO;
@@ -32,7 +33,6 @@ import view.VentanaLogin;
 import view.VentanaMostrarCita;
 import view.VentanaPrincipal;
 import view.VentanaTurnos;
-
 import static java.time.temporal.ChronoUnit.DAYS;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -101,7 +101,7 @@ public class Control implements ActionListener {
 		ventanaLogin.setVisible(true);
 
 		timer = new Timer();
-		startTimer();
+		// startTimer();
 		// enviarEmailsRecordarCitas();
 	}
 
@@ -193,7 +193,7 @@ public class Control implements ActionListener {
 			loginUsuario();
 		}
 		if (ventanaMCita.btnCancelarCita == e.getSource()) {
-			
+			cancelarCita();
 		}
 	}
 
@@ -248,7 +248,7 @@ public class Control implements ActionListener {
 
 	private boolean agendarCita(String idTurno, Paciente pac) {
 		try {
-			adminCita.CrearCita(idTurno, pac);
+			adminCita.crearCita(idTurno, pac);
 			return true;
 		} catch (Exception ex) {
 			return false;
@@ -256,10 +256,14 @@ public class Control implements ActionListener {
 	}
 
 	private void mostrarVentanaMostrarCita() {
-		listaCitas = adminCita.ListarCitas();
+		refrescarCitas();
+		ventanaMCita.setVisible(true);
+	}
+
+	private void refrescarCitas() {
+		listaCitas = adminCita.listarCitas();
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
-		ventanaMCita.setVisible(true);
 	}
 
 	private void loginUsuario() {
@@ -277,7 +281,8 @@ public class Control implements ActionListener {
 			ventanaPrincipal.setVisible(true);
 			ventanaLogin.setVisible(false);
 			userActivo = adminProfesional.getUsuarioLogeado();
-			ventanaPrincipal.lblBienvenido.setText("Bienvenido " + userActivo.getNombre());
+			ventanaPrincipal.lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			ventanaPrincipal.lblBienvenido.setText("BIENVENIDO A SOFTHEALTH " + userActivo.getNombre() + "!");
 			mostrarControlesDirector(userActivo.isEsDirector());
 
 			cargarDatosClinica();
@@ -302,9 +307,29 @@ public class Control implements ActionListener {
 	private void enviarEmailsRecordarCitas() {
 		adminCita.enviarEmailsRecordarCitas();
 	}
-	
+
 	private void cancelarCita() {
-		
+
+		String mensaje = "";
+
+		if (ventanaMCita.tableMostrarCita.getSelectedRow() == -1) {
+			mensaje = "Debe seleccionar una cita disponible!";
+		} else {
+			String idCitaCancelar = ventanaMCita.tableMostrarCita
+					.getValueAt(ventanaMCita.tableMostrarCita.getSelectedRow(), 0).toString();
+
+			CitaDTO citaCancelar = new CitaDTO();
+			citaCancelar.setId(idCitaCancelar);
+			citaCancelar.setEstado("cancelada");
+			if (adminCita.cancelarCita(citaCancelar)) {
+				mensaje = "Su cita se ha cancelado";
+			} else {
+				mensaje = "Error al cancelar la cita";
+			}
+		}
+		showMessageDialog(null, mensaje);
+		refrescarCitas();
+
 	}
 
 }

@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Color;
 
 public class VentanaAsignarTurnos extends JFrame {
 
@@ -15,8 +18,10 @@ public class VentanaAsignarTurnos extends JFrame {
 	private JPanel contentPane;
 	public JButton btnGenerarTurnos;
 	public JComboBox cboxPeriodo;
+	private JLabel lblBackground;
 	
 	public VentanaAsignarTurnos() {
+		setResizable(false);
 		setTitle("Generar Turnos para Especialistas");
 		setBounds(100, 100, 260, 258);
 		contentPane = new JPanel();
@@ -26,15 +31,25 @@ public class VentanaAsignarTurnos extends JFrame {
 		contentPane.setLayout(null);
 		
 		cboxPeriodo = new JComboBox();
-		cboxPeriodo.setBounds(32, 50, 170, 22);
+		cboxPeriodo.setBackground(new Color(0, 164, 164));
+		cboxPeriodo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		cboxPeriodo.setBounds(33, 62, 179, 28);
 		contentPane.add(cboxPeriodo);
 		
 		JLabel lblNewLabel = new JLabel("Indique el periodo a generar");
-		lblNewLabel.setBounds(32, 21, 170, 28);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setBounds(10, 21, 224, 28);
 		contentPane.add(lblNewLabel);
 		
 		btnGenerarTurnos = new JButton("Generar Turnos");
-		btnGenerarTurnos.setBounds(54, 117, 126, 23);
+		btnGenerarTurnos.setBackground(new Color(192, 192, 192));
+		btnGenerarTurnos.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnGenerarTurnos.setBounds(33, 126, 179, 33);
 		contentPane.add(btnGenerarTurnos);
+		
+		lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(VentanaAsignarTurnos.class.getResource("/view/pexels-francesco-ungaro-281260 (1).jpg")));
+		lblBackground.setBounds(0, 0, 244, 219);
+		contentPane.add(lblBackground);
 	}
 }
