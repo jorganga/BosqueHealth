@@ -47,8 +47,7 @@ public class PacienteDTO extends Persona {
 
 	@Override
 	public String toString() {
-		return "identificacion=" + super.getIdentificacion() + ", nombre=" + super.getNombre() + ", tipoSangre=" +  tipoSangre + 
-				", peso=" + peso + ", fechaNacimiento=" + fechaNacimiento;
+		return getNombre() + "-" + getIdentificacion() ;
 	}
 
 }

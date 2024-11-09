@@ -1,6 +1,11 @@
 package model;
 
-public class TipoExamen {
+import java.io.Serializable;
+
+public class TipoExamen  implements Serializable {
+	
+	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
+	
 	private String id;
 	private String nombre;
 
@@ -28,6 +33,11 @@ public class TipoExamen {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+	}
+	
+	@Override
+	public String toString() {
+		return nombre;
 	}
 
 }

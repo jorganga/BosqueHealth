@@ -27,6 +27,7 @@ public class AdminClinica {
 	public void setUserActivo(Profesional userActivo) {
 		this.userActivo = userActivo;
 	}
+	
 	public AdminClinica(Profesional usuario) {
 		// TODO Auto-generated constructor stub
 		listaEspecialidades = new ArrayList<Especialidad>();
@@ -34,6 +35,7 @@ public class AdminClinica {
 		dao = new TurnoDAO();
 		userActivo = usuario;
 	}
+	
 	public ArrayList<Especialidad> getListaEspecialidades() {
 		return listaEspecialidades;
 	}

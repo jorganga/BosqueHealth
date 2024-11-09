@@ -8,7 +8,8 @@ public class DataMapperExamenMedico {
 	
 	public static ExamenMedico ExamenMedicoDTOToExamenMedico(ExamenMedicoDTO dto) {
 		ExamenMedico entity;
-		entity = new ExamenMedico(dto.getId(), dto.getTipo(), dto.getFecha(), dto.getMedico(), dto.getPaciente(), dto.getNota());
+		entity = new ExamenMedico(dto.getTipo(), dto.getFecha(), dto.getMedico(), dto.getPaciente(), dto.getNota());
+		entity.setId(dto.getId());
 		return entity;
 	}
 
@@ -31,7 +32,7 @@ public class DataMapperExamenMedico {
 		(ArrayList<ExamenMedicoDTO> dtoList){
 		ArrayList<ExamenMedico> entityList = new ArrayList<>();
 		for (ExamenMedicoDTO d : dtoList) {
-			entityList.add(new ExamenMedico(d.getId(), d.getTipo(), d.getFecha(), d.getMedico(), d.getPaciente(), d.getNota()));
+			entityList.add(new ExamenMedico(d.getTipo(), d.getFecha(), d.getMedico(), d.getPaciente(), d.getNota()));
 		}
 		return entityList;
 	}

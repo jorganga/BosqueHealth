@@ -31,6 +31,7 @@ import view.VentanaAsignarTurnos;
 import view.VentanaBuscarPaciente;
 import view.VentanaCita;
 import view.VentanaCreacion;
+import view.VentanaCrearExamen;
 import view.VentanaCrearSeguimiento;
 import view.VentanaLogin;
 import view.VentanaMostrarCita;
@@ -45,6 +46,7 @@ public class Control implements ActionListener {
 	ArrayList<TurnoDTO> listaDeTurnos;
 	ArrayList<CitaDTO> listaCitas;
 	ArrayList<TratamientoMedicoDTO> listaTratamientos;
+	ArrayList<ExamenMedicoDTO> listaExamenes;
 	
 	VentanaLogin ventanaLogin;
 	VentanaPrincipal ventanaPrincipal;
@@ -55,6 +57,7 @@ public class Control implements ActionListener {
 	VentanaBuscarPaciente ventanaBuscarPaciente;
 	VentanaCreacion ventanaCreacion;
 	VentanaCrearSeguimiento ventanaTratamiento;
+	VentanaCrearExamen ventanaExamen;
 	
 	ArrayList<PacienteDTO> listaPaciente; // luego borrar
 	Reporte reporteTurnos;
@@ -65,6 +68,7 @@ public class Control implements ActionListener {
 	AdminProfesional adminProfesional;
 	AdminPacientes adminP;
 	AdminTratamiento adminTrata;
+	AdminExamen adminExamen;
 	Paciente pacienteActivo;
 	PacienteDAO pacienteDao;
 	Timer timer;
@@ -91,6 +95,7 @@ public class Control implements ActionListener {
 		ventanaBuscarPaciente = new VentanaBuscarPaciente();
 		ventanaCreacion = new VentanaCreacion();
 		ventanaTratamiento = new VentanaCrearSeguimiento();
+		ventanaExamen = new VentanaCrearExamen();
 		
 		ventanaLogin.btnLogin.addActionListener(this);
 
@@ -115,16 +120,20 @@ public class Control implements ActionListener {
 		ventanaCreacion.btnSolicitarExamenes.addActionListener(this);
 		
 		ventanaTratamiento.btnCrearSegumiento.addActionListener(this);
+		
+		ventanaExamen.btnCrearExamen.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
 
 		administrador = new AdminClinica(null);
 		administrador.cargarEspecialidades();
-
+		
 		adminCita = new AdminCita();
 		adminP = new AdminPacientes();
 		adminTrata = new AdminTratamiento();
+		adminExamen = new AdminExamen();
 
+		adminExamen.cargarTipoExamen();
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
 
@@ -136,7 +145,7 @@ public class Control implements ActionListener {
 		// enviarEmailsRecordarCitas();
 	}
 
-	public void startTimer() {
+	private void startTimer() {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
@@ -244,10 +253,16 @@ public class Control implements ActionListener {
 		if(ventanaTratamiento.btnCrearSegumiento == e.getSource()) {
 			crearTratamiento();
 		}
+		if(ventanaCreacion.btnSolicitarExamenes == e.getSource()) {
+			mostrarVentanaCrearExamen();
+		}
+		if(ventanaExamen.btnCrearExamen == e.getSource()) {
+			crearExamen();
+		}
 		
 	}
 
-	public void cargarPacientes() {
+	private void cargarPacientes() {
 		listaPaciente = adminP.listarPacientes();
 		
 		if (listaPaciente.size() == 0)
@@ -257,7 +272,7 @@ public class Control implements ActionListener {
 		}
 	}
 
-	public void mostrarVentanaCitas() {
+	private void mostrarVentanaCitas() {
 		DefaultListModel<PacienteDTO> modelo = new DefaultListModel<>();
 
 		// Poblar el modelo con el ArrayList
@@ -325,6 +340,12 @@ public class Control implements ActionListener {
 		listaTratamientos = adminTrata.listarTratamientos(pacienteActivo);
 		DefaultTableModel tableModelTratamiento = adminTrata.cargarReporteTratamientos(listaTratamientos);
 		ventanaCreacion.tableSeguimientos.setModel(tableModelTratamiento);
+	}
+	
+	private void refrescarExamenes() {
+		listaExamenes = adminExamen.listarExamenesPaciente(pacienteActivo);
+		DefaultTableModel tableModelExamen = adminExamen.cargarReporteExamenes(listaExamenes);
+		ventanaCreacion.tableExamenes.setModel(tableModelExamen);
 	}
 
 	
@@ -396,6 +417,7 @@ public class Control implements ActionListener {
 	private void mostrarVentanaCreacion() {
 		cargarDatosVentanaSeguimientos();
 		ventanaCreacion.setVisible(true);
+		
 	}
 	
 	private void mostrarVentanaBuscarPaciente() {
@@ -426,6 +448,7 @@ public class Control implements ActionListener {
 		{
 			ventanaCreacion.lblPaciente.setText(pacienteActivo.getNombre());
 			refrescarTratamientos();
+			refrescarExamenes();
 		}
 		
 	}
@@ -438,6 +461,24 @@ public class Control implements ActionListener {
 		ventanaTratamiento.setVisible(true);
 		ventanaTratamiento.lblIdMedico.setText("Profesional: " + userActivo.getNombre());
 		ventanaTratamiento.lblIdPaciente.setText("Paciente: " + pacienteActivo.getNombre());
+		ventanaTratamiento.txtSeguimiento.setText("");
+	}
+	
+	private void mostrarVentanaCrearExamen() {
+		if (pacienteActivo == null) {
+			showMessageDialog(null, "Seleccione primero un paciente!");
+			return;
+		}
+		ventanaExamen.lblIdMedico.setText("Profesional: " + userActivo.getNombre());
+		ventanaExamen.lblIdPaciente.setText("Paciente: " + pacienteActivo.getNombre());
+		ventanaExamen.txtSeguimiento.setText("");
+		
+		DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel<TipoExamen>(
+		adminExamen.getListaTipoExamen().toArray(new TipoExamen[0]));
+
+		ventanaExamen.cboTipoExamen.setModel(modeloCombo);
+		ventanaExamen.setVisible(true);
+		
 	}
 	
 	private void crearTratamiento() {
@@ -448,8 +489,29 @@ public class Control implements ActionListener {
 		
 		if (adminTrata.crearTratamiento(ventanaTratamiento.txtSeguimiento.getText(), pacienteActivo, userActivo)) {
 			showMessageDialog(null, "Tratamiento registrado");
+			refrescarTratamientos();
 			ventanaTratamiento.setVisible(false);
 		}
+	}
+	
+	private void crearExamen() {
+		if (ventanaExamen.txtSeguimiento.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una descripción!");
+			return;
+		}
+		if (ventanaExamen.cboTipoExamen.getSelectedIndex() == -1) {
+			showMessageDialog(null, "Seleccione un tipo de examen!");
+			return;
+		}
+		
+		TipoExamen tipoEx = (TipoExamen)ventanaExamen.cboTipoExamen.getSelectedItem();
+		
+		if (adminExamen.crearExamen(tipoEx, userActivo, pacienteActivo, ventanaExamen.txtSeguimiento.getText())) {
+			showMessageDialog(null, "Examen registrado");
+			refrescarExamenes();
+			ventanaExamen.setVisible(false);
+		}
+		
 	}
 
 }

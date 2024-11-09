@@ -61,10 +61,10 @@ public class VentanaPrincipal extends JFrame {
 		btnReporteTurnos.setBounds(118, 313, 181, 48);
 		contentPane.add(btnReporteTurnos);
 		
-		btnCita = new JButton("Citas");
+		btnCita = new JButton("Asignar Citas");
 		btnCita.setBackground(new Color(128, 128, 128));
 		btnCita.setFont(new Font("Constantia", Font.PLAIN, 20));
-		btnCita.setBounds(567, 313, 143, 48);
+		btnCita.setBounds(567, 313, 181, 48);
 		contentPane.add(btnCita);
 		
 		btnMostrarCita = new JButton("Mostrar Citas");
@@ -72,7 +72,7 @@ public class VentanaPrincipal extends JFrame {
 		btnMostrarCita.setFont(new Font("Constantia", Font.PLAIN, 20));
 		btnMostrarCita.setBounds(342, 394, 181, 48);
 		
-		btnMostrarCita = new JButton("Citas");
+		btnMostrarCita = new JButton("Cancelar Citas");
 		btnMostrarCita.setBounds(118, 372, 181, 48);
 		contentPane.add(btnMostrarCita);
 		

@@ -16,14 +16,14 @@ public class AdminTratamiento {
 
 		TratamientoMedicoDAO daoTratamiento = new TratamientoMedicoDAO(); 
 		TratamientoMedicoDTO tratamientoDTO = new TratamientoMedicoDTO();
-
+		
 		TratamientoMedico tratamiento = new TratamientoMedico(LocalDate.now(), miPaciente, medico, descricion);
 		
 		tratamientoDTO = DataMapperTratamientoMedico.TratamientoMedicoToTratamientoMedicoDTO(tratamiento);
 		
+		notificarTratamientoCreado(tratamientoDTO);
+		
 		return daoTratamiento.add(tratamientoDTO);
-
-		//notificarCitaCreada(laCita);
 		
 	}
 	
@@ -58,5 +58,20 @@ public class AdminTratamiento {
 		
 		return tableModel;
 	}
+	
+	private void notificarTratamientoCreado(TratamientoMedicoDTO tratCreado) {
+		String mensaje = "Sr(ra) " + tratCreado.getPaciente().getNombre() + "\r\n\n";
+		mensaje = mensaje + "Se ha creado un tratamiento médico:\r\n\n";
+		mensaje = mensaje + "Especialidad: " + tratCreado.getMedico().getEspecialidad() + "\r\n";
+		mensaje = mensaje + "Fecha: " + tratCreado.getFecha() + "\r\n";
+		mensaje = mensaje + "Descripción: " + tratCreado.getDescripcion() + "\r\n";
+		mensaje = mensaje + "Generado por el especialista: " + tratCreado.getMedico().getNombre() + "\r\n";
+
+		Email email = new Email("Bosque Health - Tratamiento", tratCreado.getPaciente().getEmail(), mensaje);
+		email.EnviarMail();
+		System.out.println("Email de Tratamiento enviado a: " + email.getDestinatario());
+	}
+	
+
 
 }
