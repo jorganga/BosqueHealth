@@ -10,7 +10,8 @@ public class DataMapperTratamientoMedico {
 	
 	public static TratamientoMedico TratamientoMedicoDTOToTratamientoMedico(TratamientoMedicoDTO dto) {
 		TratamientoMedico entity;
-		entity = new TratamientoMedico(dto.getId(), dto.getFecha(), dto.getPaciente(), dto.getMedico(), dto.getDescripcion());
+		entity = new TratamientoMedico(dto.getFecha(), dto.getPaciente(), dto.getMedico(), dto.getDescripcion());
+		entity.setId(dto.getId());
 		return entity;
 	}
 
@@ -33,7 +34,7 @@ public class DataMapperTratamientoMedico {
 		(ArrayList<TratamientoMedicoDTO> dtoList){
 		ArrayList<TratamientoMedico> entityList = new ArrayList<>();
 		for (TratamientoMedicoDTO d : dtoList) {
-			entityList.add(new TratamientoMedico(d.getId(), d.getFecha(), d.getPaciente(), d.getMedico(), d.getDescripcion()));
+			entityList.add(new TratamientoMedico(d.getFecha(), d.getPaciente(), d.getMedico(), d.getDescripcion()));
 		}
 		return entityList;
 	}

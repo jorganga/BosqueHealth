@@ -31,6 +31,7 @@ import view.VentanaAsignarTurnos;
 import view.VentanaBuscarPaciente;
 import view.VentanaCita;
 import view.VentanaCreacion;
+import view.VentanaCrearSeguimiento;
 import view.VentanaLogin;
 import view.VentanaMostrarCita;
 import view.VentanaPrincipal;
@@ -51,6 +52,8 @@ public class Control implements ActionListener {
 	VentanaMostrarCita ventanaMCita;
 	VentanaBuscarPaciente ventanaBuscarPaciente;
 	VentanaCreacion ventanaCreacion;
+	VentanaCrearSeguimiento ventanaTratamiento;
+	
 	ArrayList<PacienteDTO> listaPaciente; // luego borrar
 	Reporte reporteTurnos;
 	CitaDAO citaDao;
@@ -82,9 +85,9 @@ public class Control implements ActionListener {
 		ventanaAsignarTurnos = new VentanaAsignarTurnos();
 		ventanaCita = new VentanaCita();
 		ventanaMCita = new VentanaMostrarCita();
-
 		ventanaBuscarPaciente = new VentanaBuscarPaciente();
 		ventanaCreacion = new VentanaCreacion();
+		ventanaTratamiento = new VentanaCrearSeguimiento();
 		
 		ventanaLogin.btnLogin.addActionListener(this);
 
@@ -105,6 +108,10 @@ public class Control implements ActionListener {
 		ventanaBuscarPaciente.btnSeleccionar.addActionListener(this);
 		
 		ventanaCreacion.btnBuscarPaciente.addActionListener(this);
+		ventanaCreacion.btnNuevoSeguimiento.addActionListener(this);
+		ventanaCreacion.btnSolicitarExamenes.addActionListener(this);
+		
+		ventanaTratamiento.btnCrearSegumiento.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
 
@@ -227,6 +234,13 @@ public class Control implements ActionListener {
 		if(ventanaBuscarPaciente.btnSeleccionar == e.getSource()) {
 			seleccionarPacienteActivo();
 		}
+		if(ventanaCreacion.btnNuevoSeguimiento == e.getSource()) {
+			mostrarVentanaCrearTratamiento();
+		}
+		if(ventanaTratamiento.btnCrearSegumiento == e.getSource()) {
+			crearTratamiento();
+		}
+		
 	}
 
 	public void cargarPacientes() {
@@ -403,6 +417,28 @@ public class Control implements ActionListener {
 			ventanaCreacion.lblPaciente.setText(pacienteActivo.getNombre());
 		}
 		
+	}
+	
+	private void mostrarVentanaCrearTratamiento() {
+		if (pacienteActivo == null) {
+			showMessageDialog(null, "Seleccione primero un paciente!");
+			return;
+		}
+		ventanaTratamiento.setVisible(true);
+		ventanaTratamiento.lblIdMedico.setText("Profesional: " + userActivo.getNombre());
+		ventanaTratamiento.lblIdPaciente.setText("Paciente: " + pacienteActivo.getNombre());
+	}
+	
+	private void crearTratamiento() {
+		if (ventanaTratamiento.textTratamiento.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una descripción!");
+			return;
+		}
+		
+		if (adminP.crearTratamiento(ventanaTratamiento.textTratamiento.getText(), pacienteActivo, userActivo)) {
+			showMessageDialog(null, "Tratamiento registrado");
+			ventanaTratamiento.setVisible(false);
+		}
 	}
 
 }

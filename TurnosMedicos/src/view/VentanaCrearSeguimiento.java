@@ -8,13 +8,16 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 public class VentanaCrearSeguimiento extends JFrame{
-	private JTextField textIdPaciente;
-	private JTextField textIdMedico;
-	private JTextField textTratamiento;
+	public JTextField textTratamiento;
 	private JLabel lblBackground;
 	private JLabel lblLogo;
+	public JButton btnCrearSegumiento;
+	public JLabel lblIdMedico ;
+	public JLabel lblIdPaciente;
+	
 	public VentanaCrearSeguimiento() {
 		setResizable(false);
 		setBounds(100, 100, 704, 463);
@@ -25,36 +28,27 @@ public class VentanaCrearSeguimiento extends JFrame{
 		lblLogo.setBounds(588, 0, 100, 100);
 		getContentPane().add(lblLogo);
 		
-		textIdPaciente = new JTextField();
-		textIdPaciente.setBounds(296, 62, 164, 20);
-		getContentPane().add(textIdPaciente);
-		textIdPaciente.setColumns(10);
-		
-		JLabel lblIdPaciente = new JLabel("ID Paciente:");
+		lblIdPaciente = new JLabel("ID Paciente");
 		lblIdPaciente.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblIdPaciente.setBounds(198, 62, 90, 20);
+		lblIdPaciente.setBounds(198, 62, 254, 20);
 		getContentPane().add(lblIdPaciente);
 		
-		JLabel lblIdMedico = new JLabel("ID Medico:");
+		lblIdMedico = new JLabel("ID Medico");
 		lblIdMedico.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblIdMedico.setBounds(208, 93, 90, 20);
+		lblIdMedico.setBounds(198, 93, 254, 20);
 		getContentPane().add(lblIdMedico);
 		
-		textIdMedico = new JTextField();
-		textIdMedico.setColumns(10);
-		textIdMedico.setBounds(296, 93, 164, 20);
-		getContentPane().add(textIdMedico);
-		
 		textTratamiento = new JTextField();
+		textTratamiento.setHorizontalAlignment(SwingConstants.LEFT);
 		textTratamiento.setBackground(new Color(0, 164, 164));
 		textTratamiento.setBounds(75, 149, 536, 166);
 		getContentPane().add(textTratamiento);
 		textTratamiento.setColumns(10);
 		
-		JButton btnCrearSegumiento = new JButton("Crear Segumiento");
+		btnCrearSegumiento = new JButton("Crear Segumiento");
 		btnCrearSegumiento.setBackground(new Color(128, 128, 128));
 		btnCrearSegumiento.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrearSegumiento.setBounds(244, 342, 193, 43);
+		btnCrearSegumiento.setBounds(198, 339, 275, 43);
 		getContentPane().add(btnCrearSegumiento);
 		
 		lblBackground = new JLabel("");

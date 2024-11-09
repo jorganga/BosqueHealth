@@ -10,14 +10,6 @@ public class Cita implements Serializable {
 	private Turno turnito;
 	private String id;
 	private boolean envioRecordatorio;
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	private Paciente paciente;
 	private String estado;
 
@@ -40,6 +32,14 @@ public class Cita implements Serializable {
 		this.estado = estado;
 		this.envioRecordatorio = envioRecordatorio;
 		this.id = UUID.randomUUID().toString();
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Turno getTurnito() {

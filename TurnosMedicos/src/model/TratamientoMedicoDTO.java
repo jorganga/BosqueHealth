@@ -50,6 +50,10 @@ public class TratamientoMedicoDTO {
 		public void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
 		}
+		
+		public TratamientoMedicoDTO() {
+			
+		}
 
 		public TratamientoMedicoDTO(String id, LocalDate fecha, Paciente paciente, Profesional medico, String descripcion) {
 			super();

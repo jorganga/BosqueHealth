@@ -6,20 +6,19 @@ public class CitaDTO {
 	private Turno turnito;
 	private String id;
 	private boolean envioRecordatorio;
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	private Paciente paciente;
 	private String estado;
-
+	
 	public CitaDTO() {
-		// TODO Auto-generated constructor stub
+	}
+	
+	public CitaDTO(String id, Turno turnito, Paciente paciente, String estado, boolean envioRecordatorio) {
+		super();
+		this.turnito = turnito;
+		this.paciente = paciente;
+		this.estado = estado;
+		this.id = id;
+		this.envioRecordatorio = envioRecordatorio;
 	}
 	
 	public boolean isEnvioRecordatorio() {
@@ -29,16 +28,14 @@ public class CitaDTO {
 	public void setEnvioRecordatorio(boolean envioRecordatorio) {
 		this.envioRecordatorio = envioRecordatorio;
 	}
-
-	public CitaDTO(String id, Turno turnito, Paciente paciente, String estado, boolean envioRecordatorio) {
-		super();
-		this.turnito = turnito;
-		this.paciente = paciente;
-		this.estado = estado;
-		this.id = id;
-		this.envioRecordatorio = envioRecordatorio;
+	
+	public String getId() {
+		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
 	public Turno getTurnito() {
 		return turnito;
 	}

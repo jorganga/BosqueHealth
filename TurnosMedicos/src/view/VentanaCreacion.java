@@ -16,6 +16,8 @@ public class VentanaCreacion extends JFrame{
 	public JButton btnBuscarPaciente;
 	public JLabel lblPaciente;
 	private JTable tableExamenes;
+	public JButton btnNuevoSeguimiento;
+	public JButton btnSolicitarExamenes;
 	
 	public VentanaCreacion() {
 		setResizable(false);
@@ -30,13 +32,13 @@ public class VentanaCreacion extends JFrame{
 		lblLogo.setIcon(new ImageIcon(VentanaCreacion.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
 		getContentPane().add(lblLogo);
 		
-		JButton btnNuevoSeguimiento = new JButton("Crear Nuevo Seguimiento");
+		btnNuevoSeguimiento = new JButton("Crear Nuevo Seguimiento");
 		btnNuevoSeguimiento.setBounds(10, 64, 197, 47);
 		btnNuevoSeguimiento.setBackground(new Color(128, 128, 128));
 		btnNuevoSeguimiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		getContentPane().add(btnNuevoSeguimiento);
 		
-		JButton btnSolicitarExamenes = new JButton("Solicitar Examenes");
+		btnSolicitarExamenes = new JButton("Solicitar Examenes");
 		btnSolicitarExamenes.setBounds(396, 64, 155, 47);
 		btnSolicitarExamenes.setBackground(new Color(128, 128, 128));
 		btnSolicitarExamenes.setFont(new Font("Tahoma", Font.PLAIN, 15));

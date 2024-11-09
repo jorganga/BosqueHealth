@@ -3,7 +3,13 @@ package model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+
+import model.persistence.DataMapperCita;
+import model.persistence.DataMapperTratamientoMedico;
+import model.persistence.DataMapperTurno;
 import model.persistence.PacienteDAO;
+import model.persistence.TratamientoMedicoDAO;
+import model.persistence.TurnoDAO;
 
 public class AdminPacientes {
 	
@@ -82,5 +88,24 @@ public class AdminPacientes {
 		};
 		
 		return tableModel;
-	}	
+	}
+	
+	public boolean crearTratamiento(String descricion, Paciente miPaciente, Profesional medico) {
+
+		TratamientoMedicoDAO daoTratamiento = new TratamientoMedicoDAO(); 
+		TratamientoMedicoDTO tratamientoDTO = new TratamientoMedicoDTO();
+
+		TratamientoMedico tratamiento = new TratamientoMedico(LocalDate.now(), miPaciente, medico, descricion);
+		
+		tratamientoDTO = DataMapperTratamientoMedico.TratamientoMedicoToTratamientoMedicoDTO(tratamiento);
+		
+		return daoTratamiento.add(tratamientoDTO);
+
+		//notificarCitaCreada(laCita);
+		
+	}
+
+	
+	
+	
 }

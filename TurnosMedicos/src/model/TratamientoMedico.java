@@ -1,8 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
-public class TratamientoMedico {
+public class TratamientoMedico implements Serializable {
+	
+	private static final long serialVersionUID = 6937903695321206414L;
 	private String id;
 	private LocalDate fecha;
 	private Paciente paciente;
@@ -52,9 +56,9 @@ public class TratamientoMedico {
 		this.descripcion = descripcion;
 	}
 
-	public TratamientoMedico(String id, LocalDate fecha, Paciente paciente, Profesional medico, String descripcion) {
+	public TratamientoMedico(LocalDate fecha, Paciente paciente, Profesional medico, String descripcion) {
 		super();
-		this.id = id;
+		this.id = UUID.randomUUID().toString();
 		this.fecha = fecha;
 		this.paciente = paciente;
 		this.medico = medico;
