@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -26,9 +24,13 @@ import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 import model.*;
 import model.persistence.CitaDAO;
+import model.persistence.DataMapperPaciente;
+import model.persistence.PacienteDAO;
 import model.persistence.TurnoDAO;
 import view.VentanaAsignarTurnos;
+import view.VentanaBuscarPaciente;
 import view.VentanaCita;
+import view.VentanaCreacion;
 import view.VentanaLogin;
 import view.VentanaMostrarCita;
 import view.VentanaPrincipal;
@@ -47,13 +49,18 @@ public class Control implements ActionListener {
 	VentanaAsignarTurnos ventanaAsignarTurnos;
 	VentanaCita ventanaCita;
 	VentanaMostrarCita ventanaMCita;
-	ArrayList<Paciente> listaPaciente; // luego borrar
+	VentanaBuscarPaciente ventanaBuscarPaciente;
+	VentanaCreacion ventanaCreacion;
+	ArrayList<PacienteDTO> listaPaciente; // luego borrar
 	Reporte reporteTurnos;
 	CitaDAO citaDao;
 	Profesional userActivo;
 	AdminClinica administrador;
 	AdminCita adminCita;
 	AdminProfesional adminProfesional;
+	AdminPacientes adminP;
+	Paciente pacienteActivo;
+	PacienteDAO pacienteDao;
 	Timer timer;
 
 	private ModelFacade mf;
@@ -76,17 +83,28 @@ public class Control implements ActionListener {
 		ventanaCita = new VentanaCita();
 		ventanaMCita = new VentanaMostrarCita();
 
+		ventanaBuscarPaciente = new VentanaBuscarPaciente();
+		ventanaCreacion = new VentanaCreacion();
+		
+		ventanaLogin.btnLogin.addActionListener(this);
+
 		ventanaLogin.btnLogin.addActionListener(this);
 		ventanaMCita.btnCancelarCita.addActionListener(this);
 		ventanaPrincipal.btnAsignarTurnos.addActionListener(this);
 		ventanaPrincipal.btnReporteTurnos.addActionListener(this);
 		ventanaPrincipal.btnCita.addActionListener(this);
 		ventanaPrincipal.btnMostrarCita.addActionListener(this);
+		ventanaPrincipal.btnSeguimientos.addActionListener(this);
 
 		ventanaAsignarTurnos.btnGenerarTurnos.addActionListener(this);
 		ventanaAsignarTurnos.cboxPeriodo.addActionListener(this);
 
 		ventanaCita.btnCrearCita.addActionListener(this);
+		
+		ventanaBuscarPaciente.btnBuscar.addActionListener(this);
+		ventanaBuscarPaciente.btnSeleccionar.addActionListener(this);
+		
+		ventanaCreacion.btnBuscarPaciente.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
 
@@ -94,6 +112,7 @@ public class Control implements ActionListener {
 		administrador.cargarEspecialidades();
 
 		adminCita = new AdminCita();
+		adminP = new AdminPacientes();
 
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
@@ -101,6 +120,7 @@ public class Control implements ActionListener {
 		ventanaLogin.setVisible(true);
 
 		timer = new Timer();
+
 		// startTimer();
 		// enviarEmailsRecordarCitas();
 	}
@@ -189,26 +209,41 @@ public class Control implements ActionListener {
 		if (ventanaPrincipal.btnMostrarCita == e.getSource()) {
 			mostrarVentanaMostrarCita();
 		}
+		if (ventanaPrincipal.btnSeguimientos == e.getSource()) {
+			mostrarVentanaCreacion();
+		}
 		if (ventanaLogin.btnLogin == e.getSource()) {
 			loginUsuario();
 		}
 		if (ventanaMCita.btnCancelarCita == e.getSource()) {
 			cancelarCita();
 		}
+		if(ventanaCreacion.btnBuscarPaciente == e.getSource()) {
+			mostrarVentanaBuscarPaciente();
+		}
+		if(ventanaBuscarPaciente.btnBuscar == e.getSource()) {
+			
+		}
+		if(ventanaBuscarPaciente.btnSeleccionar == e.getSource()) {
+			seleccionarPacienteActivo();
+		}
 	}
 
 	public void cargarPacientes() {
-		AdminPacientes adminP = new AdminPacientes();
-		adminP.CargarPacientesDemo();
-		Date fecha = new Date();
-		listaPaciente = adminP.getListadoPacientes();
+		listaPaciente = adminP.listarPacientes();
+		
+		if (listaPaciente.size() == 0)
+		{
+			adminP.CargarPacientesDemo();
+			listaPaciente = DataMapperPaciente.listaPacienteToListaPacienteDTO(adminP.getListadoPacientes());
+		}
 	}
 
 	public void mostrarVentanaCitas() {
-		DefaultListModel<Paciente> modelo = new DefaultListModel<>();
+		DefaultListModel<PacienteDTO> modelo = new DefaultListModel<>();
 
 		// Poblar el modelo con el ArrayList
-		for (Paciente elemento : listaPaciente) {
+		for (PacienteDTO elemento : listaPaciente) {
 			modelo.addElement(elemento);
 		}
 
@@ -235,10 +270,12 @@ public class Control implements ActionListener {
 		}
 
 		if (resultado.isEmpty()) {
-			Paciente pacienteSeleccionado = (Paciente) ventanaCita.listaPacientes.getSelectedValue();
+			PacienteDTO pacienteSeleccionado = (PacienteDTO)ventanaCita.listaPacientes.getSelectedValue();
 			String id = ventanaCita.tableTurnos.getValueAt(ventanaCita.tableTurnos.getSelectedRow(), 0).toString();
-
-			if (agendarCita(id, pacienteSeleccionado)) {
+			
+			Paciente pacienteCita = DataMapperPaciente.PacienteDTOToPaciente(pacienteSeleccionado);
+			
+			if (agendarCita(id, pacienteCita)) {
 				resultado = "Cita creada exitosamente!";
 				cargarTurnos();
 			}
@@ -266,15 +303,17 @@ public class Control implements ActionListener {
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
 	}
 
-	private void loginUsuario() {
-		String pwd = new String(ventanaLogin.passwordField.getPassword());
-
+	
+	private void loginUsuario()
+	{
+		String pwd = new String(ventanaLogin.pwd.getPassword());
+		
 		if (ventanaLogin.txtUsuario.getText().equals("")) {
 			showMessageDialog(null, "Ingrese el nombre de usuario!");
 			return;
 		}
 		if (pwd.equals("")) {
-			showMessageDialog(null, "Ingrese el password!");
+			showMessageDialog(null, "Ingrese la contraseña!");
 			return;
 		}
 		if (adminProfesional.login(ventanaLogin.txtUsuario.getText(), pwd)) {
@@ -301,7 +340,6 @@ public class Control implements ActionListener {
 		administrador.setUserActivo(userActivo);
 		cargarPacientes();
 		cargarTurnos();
-
 	}
 
 	private void enviarEmailsRecordarCitas() {
@@ -330,6 +368,41 @@ public class Control implements ActionListener {
 		showMessageDialog(null, mensaje);
 		refrescarCitas();
 
+	}
+	private void mostrarVentanaCreacion() {
+		cargarDatosVentanaSeguimientos();
+		ventanaCreacion.setVisible(true);
+	}
+	
+	private void mostrarVentanaBuscarPaciente() {
+		ventanaBuscarPaciente.setVisible(true);
+		
+		ventanaBuscarPaciente.tablePaciente.setModel(adminP.cargarReportePacientes(listaPaciente)); 
+	}
+	
+	private void seleccionarPacienteActivo() {
+		if(ventanaBuscarPaciente.tablePaciente.getSelectedRow() == -1) {
+			showMessageDialog(null, "Seleccione un paciente!");
+			return;
+		}
+		String identificacion = ventanaBuscarPaciente.tablePaciente.
+				getValueAt(ventanaBuscarPaciente.tablePaciente.getSelectedRow(), 0).toString();
+		Paciente pacienteBuscar = new Paciente();
+		pacienteBuscar.setId(identificacion);
+		
+		pacienteDao = new PacienteDAO();
+		pacienteActivo = pacienteDao.find(pacienteBuscar);
+		
+		cargarDatosVentanaSeguimientos();
+		ventanaBuscarPaciente.setVisible(false);
+	}
+	
+	private void cargarDatosVentanaSeguimientos() {
+		if (pacienteActivo != null)
+		{
+			ventanaCreacion.lblPaciente.setText(pacienteActivo.getNombre());
+		}
+		
 	}
 
 }

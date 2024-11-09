@@ -19,7 +19,7 @@ public class VentanaLogin extends JFrame {
 	private JPanel contentPane;
 	public JTextField txtUsuario;
 	public JButton btnLogin;
-	public JPasswordField passwordField;
+	public JPasswordField pwd;
 
 	public VentanaLogin() {
 		setResizable(false);
@@ -32,37 +32,42 @@ public class VentanaLogin extends JFrame {
 		contentPane.setLayout(null);
 		
 		txtUsuario = new JTextField();
+		txtUsuario.setBounds(70, 71, 149, 20);
 		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtUsuario.setText("1034517158");
-		txtUsuario.setBounds(70, 62, 149, 20);
+		txtUsuario.setText("1034517158");
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel.setBounds(70, 47, 115, 14);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblPassword.setBounds(70, 102, 115, 14);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPane.add(lblPassword);
 		
 		btnLogin = new JButton("Iniciar Sesión");
+		btnLogin.setBounds(79, 159, 123, 39);
 		btnLogin.setBackground(new Color(192, 192, 192));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogin.setSelected(true);
-		btnLogin.setBounds(79, 159, 123, 39);
 		contentPane.add(btnLogin);
 		
-		passwordField = new JPasswordField();
-		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		passwordField.setBounds(70, 117, 149, 20);
-		contentPane.add(passwordField);
+		pwd = new JPasswordField();
+		pwd.setText("123");
+		pwd.setBounds(70, 117, 149, 20);
+		pwd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		contentPane.add(pwd);
 		
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(VentanaLogin.class.getResource("/view/pexels-francesco-ungaro-281260 (1).jpg")));
 		lblBackground.setBounds(0, 0, 284, 223);
+		lblBackground.setIcon(new ImageIcon(VentanaLogin.class.getResource("/view/pexels-francesco-ungaro-281260 (1).jpg")));
 		contentPane.add(lblBackground);
+		
+		pwd.setText("123");
+		
 	}
 }

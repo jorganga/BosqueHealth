@@ -1,6 +1,7 @@
 package model.persistence;
 
 import java.util.ArrayList;
+
 import model.Paciente;
 import model.PacienteDTO;
 
@@ -45,7 +46,7 @@ public class PacienteDAO implements CRUDOperation<PacienteDTO, Paciente> {
 	public boolean add(PacienteDTO newData) {
 		if (find(DataMapperPaciente.PacienteDTOToPaciente(newData)) == null) {
 			listaPaciente.add(DataMapperPaciente.PacienteDTOToPaciente(newData));
-			writeFile();
+			//writeFile();
 			writeSerializable();
 			return true;
 		} else {
@@ -58,7 +59,7 @@ public class PacienteDAO implements CRUDOperation<PacienteDTO, Paciente> {
 	public boolean delete(PacienteDTO toDelete) {
 		Paciente found = find(DataMapperPaciente.PacienteDTOToPaciente(toDelete));
 		if (found != null) {
-			writeFile();
+			//writeFile();
 			writeSerializable();
 			return listaPaciente.remove(found);
 		} else {
@@ -68,14 +69,35 @@ public class PacienteDAO implements CRUDOperation<PacienteDTO, Paciente> {
 
 	@Override
 	public Paciente find(Paciente toFind) {
-		// TODO Auto-generated method stub
+		Paciente found = null;
+		if (!listaPaciente.isEmpty()) {
+			for (Paciente paciente : listaPaciente) {
+				if (paciente.getIdentificacion().equals(toFind.getIdentificacion())) {
+					found = paciente;
+					//writeFile();
+					return found;
+				} else {
+					continue; // las sig lineas desps de continue no se ejecutan, saltan a la sig iteracion
+				}
+			}
+		} else {
+			return null;
+		}
 		return null;
 	}
 
 	@Override
 	public boolean update(PacienteDTO previous, PacienteDTO newData) {
-		// TODO Auto-generated method stub
-		return false;
+		Paciente found = find(DataMapperPaciente.PacienteDTOToPaciente(previous));
+		if (found != null) {
+			listaPaciente.remove(found);
+			listaPaciente.add(DataMapperPaciente.PacienteDTOToPaciente(newData));
+			//writeFile();
+			writeSerializable();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void writeFile() {

@@ -12,73 +12,72 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 
 public class VentanaCreacion extends JFrame{
-	private JTextField textFieldBuscarPaciente;
-	private JTable table;
+	private JTable tableSeguimientos;
+	public JButton btnBuscarPaciente;
+	public JLabel lblPaciente;
+	private JTable tableExamenes;
+	
 	public VentanaCreacion() {
 		setResizable(false);
+		setTitle("Buscar Paciente");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		getContentPane().setLayout(null);
 		getContentPane().setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon(VentanaCreacion.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
 		lblLogo.setBounds(812, 0, 100, 100);
+		lblLogo.setIcon(new ImageIcon(VentanaCreacion.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
 		getContentPane().add(lblLogo);
 		
-		textFieldBuscarPaciente = new JTextField();
-		textFieldBuscarPaciente.setBounds(132, 140, 121, 20);
-		getContentPane().add(textFieldBuscarPaciente);
-		textFieldBuscarPaciente.setColumns(10);
-		
 		JButton btnNuevoSeguimiento = new JButton("Crear Nuevo Seguimiento");
+		btnNuevoSeguimiento.setBounds(10, 64, 197, 47);
 		btnNuevoSeguimiento.setBackground(new Color(128, 128, 128));
 		btnNuevoSeguimiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNuevoSeguimiento.setBounds(336, 113, 197, 47);
 		getContentPane().add(btnNuevoSeguimiento);
 		
 		JButton btnSolicitarExamenes = new JButton("Solicitar Examenes");
+		btnSolicitarExamenes.setBounds(396, 64, 155, 47);
 		btnSolicitarExamenes.setBackground(new Color(128, 128, 128));
 		btnSolicitarExamenes.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnSolicitarExamenes.setBounds(578, 113, 155, 47);
 		getContentPane().add(btnSolicitarExamenes);
 		
-		JLabel lblNewLabel = new JLabel("Buscar Paciente");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(132, 113, 121, 16);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		getContentPane().add(lblNewLabel);
+		JLabel lblBPaciente = new JLabel("Buscar Paciente");
+		lblBPaciente.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblBPaciente.setBounds(132, 113, 121, 16);
+		getContentPane().add(btnNuevoSeguimiento);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(143, 183, 581, 219);
+		scrollPane.setBounds(10, 152, 362, 178);
 		getContentPane().add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		tableSeguimientos = new JTable();
+		scrollPane.setViewportView(tableSeguimientos);
 		
-		JLabel lblTratamientoYFecha = new JLabel("Detalle Del \r\nTratamiento / Fecha");
-		lblTratamientoYFecha.setBounds(57, 438, 155, 26);
+		JLabel lblTratamientoYFecha = new JLabel("Seguimientos");
+		lblTratamientoYFecha.setBounds(10, 126, 155, 26);
 		getContentPane().add(lblTratamientoYFecha);
 		
-		JLabel lblDetalleTyF = new JLabel("(poner detalle)");
-		lblDetalleTyF.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDetalleTyF.setBounds(57, 461, 155, 26);
-		getContentPane().add(lblDetalleTyF);
+		lblPaciente = new JLabel("xxx");
+		lblPaciente.setBounds(160, 27, 311, 26);
+		lblPaciente.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPaciente.setHorizontalAlignment(SwingConstants.LEFT);
+		getContentPane().add(lblPaciente);
 		
-		JLabel lblTratamientoYMedico = new JLabel("Detalle Del \r\nTratamiento / Fecha");
-		lblTratamientoYMedico.setBounds(235, 438, 155, 26);
-		getContentPane().add(lblTratamientoYMedico);
+		btnBuscarPaciente = new JButton("Buscar");
+		btnBuscarPaciente.setBounds(61, 29, 89, 23);
+		getContentPane().add(btnBuscarPaciente);
 		
-		JLabel lblDetalleTyM = new JLabel("(poner detalle)");
-		lblDetalleTyM.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDetalleTyM.setBounds(235, 461, 155, 26);
-		getContentPane().add(lblDetalleTyM);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(388, 152, 362, 178);
+		getContentPane().add(scrollPane_1);
 		
-		JLabel lblDetalleTyM2 = new JLabel("(poner detalle)");
-		lblDetalleTyM2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDetalleTyM2.setBounds(426, 413, 486, 76);
-		getContentPane().add(lblDetalleTyM2);
+		tableExamenes = new JTable();
+		scrollPane_1.setViewportView(tableExamenes);
 		
 		JLabel lblBackground = new JLabel("");
+		lblBackground.setBounds(0, 0, 802, 552);
 		lblBackground.setIcon(new ImageIcon(VentanaCreacion.class.getResource("/view/pexels-francesco-ungaro-281260 (2).jpg")));
-		lblBackground.setBounds(0, 0, 912, 552);
 		getContentPane().add(lblBackground);
 	}
 }

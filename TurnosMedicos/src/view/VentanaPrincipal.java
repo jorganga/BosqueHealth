@@ -25,6 +25,7 @@ public class VentanaPrincipal extends JFrame {
 	public JLabel lblBienvenido;
 	private JLabel lblBackground;
 	private JLabel lblLogo;
+	public JButton btnSeguimientos;
 
 	public VentanaPrincipal() {
 		setResizable(false);
@@ -43,6 +44,9 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		btnSeguimientos = new JButton("Seguimientos");
+		btnSeguimientos.setBounds(348, 375, 143, 42);
+		contentPane.add(btnSeguimientos);
 		
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
@@ -67,6 +71,9 @@ public class VentanaPrincipal extends JFrame {
 		btnMostrarCita.setBackground(new Color(128, 128, 128));
 		btnMostrarCita.setFont(new Font("Constantia", Font.PLAIN, 20));
 		btnMostrarCita.setBounds(342, 394, 181, 48);
+		
+		btnMostrarCita = new JButton("Citas");
+		btnMostrarCita.setBounds(118, 372, 181, 48);
 		contentPane.add(btnMostrarCita);
 		
 		lblBienvenido = new JLabel("BIENVENIDO A SOFTHEALTH xxxx");

@@ -2,25 +2,30 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import javax.swing.table.DefaultTableModel;
+import model.persistence.PacienteDAO;
 
 public class AdminPacientes {
 	
 	private ArrayList<Paciente> listadoPacientes;
-	
+	private PacienteDAO dao;
 	
 	public ArrayList<Paciente> getListadoPacientes() {
 		return listadoPacientes;
 	}
-
+	
+	public ArrayList<PacienteDTO> listarPacientes(){
+		PacienteDAO pacienteDAO = new PacienteDAO();
+		return pacienteDAO.getAll();
+	}
 
 	public void setListadoPacientes(ArrayList<Paciente> listadoPacientes) {
 		this.listadoPacientes = listadoPacientes;
 	}
 
-
 	public AdminPacientes() {
 		listadoPacientes = new ArrayList<Paciente>();
+		dao = new PacienteDAO();
 	}
 
 
@@ -46,6 +51,36 @@ public class AdminPacientes {
 		listadoPacientes.add(new Paciente("Hilda Pérez", "787878", "jor_angulo@yahoo.es", "B-", 61, LocalDate.of(1988, 7, 14)));
 		listadoPacientes.add(new Paciente("Iván Cárdenas", "909090", "jor_angulo@yahoo.es", "A+", 84, LocalDate.of(1982, 4, 19)));
 		listadoPacientes.add(new Paciente("Julia Salas", "111111", "jor_angulo@yahoo.es", "O+", 66, LocalDate.of(1990, 5, 27)));
+		
+		dao.setListaPaciente(listadoPacientes);
+		dao.writeSerializable();
 	}
 	
+	public DefaultTableModel cargarReportePacientes(ArrayList<PacienteDTO> lista) {
+		
+		String nombre = "";
+		String identificacion = "";
+		String tipoSangre = "";
+		String email = "";
+		int peso = 0;
+		LocalDate fechaNacimiento;
+				
+		String[] columnNames = {"IDENTIFICACION","NOMBRE","FECHA DE NACIMIENTO", "TIPO SANGUINEO","PESO", "EMAIL"}; //Nombre de la cabecera del reporte
+		
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		
+		for (PacienteDTO model : lista) {
+			identificacion = model.getIdentificacion();
+			nombre = model.getNombre();
+			fechaNacimiento = model.getFechaNacimiento();
+			tipoSangre = model.getTipoSangre();
+			email = model.getEmail();
+			peso = model.getPeso();
+			
+			Object[] data = {identificacion, nombre, fechaNacimiento, tipoSangre, peso, email};
+			tableModel.addRow(data);
+		};
+		
+		return tableModel;
+	}	
 }
