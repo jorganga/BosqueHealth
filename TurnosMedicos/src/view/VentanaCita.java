@@ -64,11 +64,11 @@ public class VentanaCita extends JFrame {
 		contentPane.add(scrollPane);
 		
 		tableTurnos = new JTable();
-		tableTurnos.setBackground(new Color(0, 164, 164));
+		tableTurnos.setBackground(new Color(192, 192, 192));
 		scrollPane.setViewportView(tableTurnos);
 		
 		listaPacientes = new JList<Object>();
-		listaPacientes.setBackground(new Color(0, 164, 164));
+		listaPacientes.setBackground(new Color(192, 192, 192));
 		listaPacientes.setBounds(49, 127, 288, 290);
 		contentPane.add(listaPacientes);
 		

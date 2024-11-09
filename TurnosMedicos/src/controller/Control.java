@@ -34,7 +34,7 @@ import view.VentanaCreacion;
 import view.VentanaCrearExamen;
 import view.VentanaCrearSeguimiento;
 import view.VentanaLogin;
-import view.VentanaMostrarCita;
+import view.VentanaCancelarCita;
 import view.VentanaPrincipal;
 import view.VentanaTurnos;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -53,7 +53,7 @@ public class Control implements ActionListener {
 	VentanaTurnos ventanaTurnos;
 	VentanaAsignarTurnos ventanaAsignarTurnos;
 	VentanaCita ventanaCita;
-	VentanaMostrarCita ventanaMCita;
+	VentanaCancelarCita ventanaCCita;
 	VentanaBuscarPaciente ventanaBuscarPaciente;
 	VentanaCreacion ventanaCreacion;
 	VentanaCrearSeguimiento ventanaTratamiento;
@@ -91,7 +91,7 @@ public class Control implements ActionListener {
 		ventanaTurnos = new VentanaTurnos();
 		ventanaAsignarTurnos = new VentanaAsignarTurnos();
 		ventanaCita = new VentanaCita();
-		ventanaMCita = new VentanaMostrarCita();
+		ventanaCCita = new VentanaCancelarCita();
 		ventanaBuscarPaciente = new VentanaBuscarPaciente();
 		ventanaCreacion = new VentanaCreacion();
 		ventanaTratamiento = new VentanaCrearSeguimiento();
@@ -100,7 +100,7 @@ public class Control implements ActionListener {
 		ventanaLogin.btnLogin.addActionListener(this);
 
 		ventanaLogin.btnLogin.addActionListener(this);
-		ventanaMCita.btnCancelarCita.addActionListener(this);
+		ventanaCCita.btnCancelarCita.addActionListener(this);
 		ventanaPrincipal.btnAsignarTurnos.addActionListener(this);
 		ventanaPrincipal.btnReporteTurnos.addActionListener(this);
 		ventanaPrincipal.btnCita.addActionListener(this);
@@ -227,7 +227,7 @@ public class Control implements ActionListener {
 			crearCita();
 		}
 		if (ventanaPrincipal.btnMostrarCita == e.getSource()) {
-			mostrarVentanaMostrarCita();
+			mostrarVentanaCancelarCita();
 		}
 		if (ventanaPrincipal.btnSeguimientos == e.getSource()) {
 			mostrarVentanaCreacion();
@@ -235,7 +235,7 @@ public class Control implements ActionListener {
 		if (ventanaLogin.btnLogin == e.getSource()) {
 			loginUsuario();
 		}
-		if (ventanaMCita.btnCancelarCita == e.getSource()) {
+		if (ventanaCCita.btnCancelarCita == e.getSource()) {
 			cancelarCita();
 		}
 		if(ventanaCreacion.btnBuscarPaciente == e.getSource()) {
@@ -325,15 +325,15 @@ public class Control implements ActionListener {
 		}
 	}
 
-	private void mostrarVentanaMostrarCita() {
+	private void mostrarVentanaCancelarCita() {
 		refrescarCitas();
-		ventanaMCita.setVisible(true);
+		ventanaCCita.setVisible(true);
 	}
 
 	private void refrescarCitas() {
 		listaCitas = adminCita.listarCitas();
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
-		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
+		ventanaCCita.tableMostrarCita.setModel(tableModelCita);
 	}
 	
 	private void refrescarTratamientos() {
@@ -395,11 +395,11 @@ public class Control implements ActionListener {
 
 		String mensaje = "";
 
-		if (ventanaMCita.tableMostrarCita.getSelectedRow() == -1) {
+		if (ventanaCCita.tableMostrarCita.getSelectedRow() == -1) {
 			mensaje = "Debe seleccionar una cita disponible!";
 		} else {
-			String idCitaCancelar = ventanaMCita.tableMostrarCita
-					.getValueAt(ventanaMCita.tableMostrarCita.getSelectedRow(), 0).toString();
+			String idCitaCancelar = ventanaCCita.tableMostrarCita
+					.getValueAt(ventanaCCita.tableMostrarCita.getSelectedRow(), 0).toString();
 
 			CitaDTO citaCancelar = new CitaDTO();
 			citaCancelar.setId(idCitaCancelar);
@@ -412,7 +412,7 @@ public class Control implements ActionListener {
 		}
 		showMessageDialog(null, mensaje);
 		refrescarCitas();
-
+		ventanaCCita.setVisible(true);
 	}
 	private void mostrarVentanaCreacion() {
 		cargarDatosVentanaSeguimientos();

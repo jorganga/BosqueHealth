@@ -22,10 +22,13 @@ public class VentanaPrincipal extends JFrame {
 	public JButton btnReporteTurnos;
 	public JButton btnCita;
 	public JButton btnMostrarCita;
+	public JButton btnMostrarCita_1;
 	public JLabel lblBienvenido;
 	private JLabel lblBackground;
 	private JLabel lblLogo;
 	public JButton btnSeguimientos;
+	private JLabel lblQueDeseaHacer;
+	private JButton btnCrearPaciente;
 
 	public VentanaPrincipal() {
 		setResizable(false);
@@ -36,7 +39,8 @@ public class VentanaPrincipal extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
+
 		btnAsignarTurnos = new JButton("Asignar Turnos");
 		btnAsignarTurnos.setBackground(new Color(128, 128, 128));
 		btnAsignarTurnos.setFont(new Font("Constantia", Font.PLAIN, 20));
@@ -44,13 +48,27 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
+		btnCrearPaciente = new JButton("Crear Paciente");
+		btnCrearPaciente.setFont(new Font("Constantia", Font.PLAIN, 20));
+		btnCrearPaciente.setBackground(Color.GRAY);
+		btnCrearPaciente.setBounds(342, 372, 181, 48);
+		contentPane.add(btnCrearPaciente);
+		
+		lblQueDeseaHacer = new JLabel("Que desea hacer hoy?");
+		lblQueDeseaHacer.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQueDeseaHacer.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblQueDeseaHacer.setBounds(118, 239, 647, 33);
+		contentPane.add(lblQueDeseaHacer);
 		btnSeguimientos = new JButton("Seguimientos");
-		btnSeguimientos.setBounds(348, 375, 143, 42);
+		btnSeguimientos.setBackground(new Color(128, 128, 128));
+		btnSeguimientos.setFont(new Font("Constantia", Font.PLAIN, 20));
+		btnSeguimientos.setBounds(567, 372, 181, 48);
 		contentPane.add(btnSeguimientos);
 		
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
-		lblLogo.setBounds(391, 144, 100, 100);
+		lblLogo.setBounds(390, 93, 100, 100);
 		contentPane.add(lblLogo);
 		btnAsignarTurnos.setBounds(342, 313, 181, 48);
 		contentPane.add(btnAsignarTurnos);
@@ -67,19 +85,16 @@ public class VentanaPrincipal extends JFrame {
 		btnCita.setBounds(567, 313, 181, 48);
 		contentPane.add(btnCita);
 		
-		btnMostrarCita = new JButton("Mostrar Citas");
+		btnMostrarCita = new JButton("Cancelar Citas");
 		btnMostrarCita.setBackground(new Color(128, 128, 128));
 		btnMostrarCita.setFont(new Font("Constantia", Font.PLAIN, 20));
-		btnMostrarCita.setBounds(342, 394, 181, 48);
-		
-		btnMostrarCita = new JButton("Cancelar Citas");
 		btnMostrarCita.setBounds(118, 372, 181, 48);
 		contentPane.add(btnMostrarCita);
 		
-		lblBienvenido = new JLabel("BIENVENIDO A SOFTHEALTH xxxx");
+		lblBienvenido = new JLabel("BIENVENIDO A SOFTHEALTH ");
 		lblBienvenido.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblBienvenido.setBounds(118, 89, 647, 33);
+		lblBienvenido.setBounds(118, 31, 647, 33);
 		contentPane.add(lblBienvenido);
 		
 		lblBackground = new JLabel("");

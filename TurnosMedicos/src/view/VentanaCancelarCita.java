@@ -11,23 +11,23 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 
-public class VentanaMostrarCita extends JFrame{
+public class VentanaCancelarCita extends JFrame{
 	public JTable tableMostrarCita;
 	public JButton btnCancelarCita;
 	private JLabel lblSeleccioneLaCita;
 	private JLabel lblBackground;
 	
-	public VentanaMostrarCita() {
+	public VentanaCancelarCita() {
 		setBounds(100, 100, 900, 600);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(59, 77, 764, 402);
+		scrollPane.setBounds(59, 61, 764, 402);
 		getContentPane().add(scrollPane);
 		
 		tableMostrarCita = new JTable();
-		tableMostrarCita.setBackground(new Color(0, 164, 164));
+		tableMostrarCita.setBackground(new Color(192, 192, 192));
 		scrollPane.setViewportView(tableMostrarCita);
 		
 		btnCancelarCita = new JButton("CANCELAR CITA");
@@ -43,7 +43,7 @@ public class VentanaMostrarCita extends JFrame{
 		getContentPane().add(lblSeleccioneLaCita);
 		
 		lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(VentanaMostrarCita.class.getResource("/view/pexels-francesco-ungaro-281260 (3).jpg")));
+		lblBackground.setIcon(new ImageIcon(VentanaCancelarCita.class.getResource("/view/pexels-francesco-ungaro-281260 (3).jpg")));
 		lblBackground.setBounds(0, 0, 884, 561);
 		getContentPane().add(lblBackground);
 		

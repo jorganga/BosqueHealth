@@ -29,17 +29,18 @@ public class VentanaAsignarTurnos extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
+
 		cboxPeriodo = new JComboBox();
-		cboxPeriodo.setBackground(new Color(0, 164, 164));
+		cboxPeriodo.setBackground(new Color(192, 192, 192));
 		cboxPeriodo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cboxPeriodo.setBounds(33, 62, 179, 28);
 		contentPane.add(cboxPeriodo);
 		
-		JLabel lblNewLabel = new JLabel("Indique el periodo a generar");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel.setBounds(10, 21, 224, 28);
-		contentPane.add(lblNewLabel);
+		JLabel lblPeriodoGenerar = new JLabel("Indique el periodo a generar");
+		lblPeriodoGenerar.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPeriodoGenerar.setBounds(10, 21, 224, 28);
+		contentPane.add(lblPeriodoGenerar);
 		
 		btnGenerarTurnos = new JButton("Generar Turnos");
 		btnGenerarTurnos.setBackground(new Color(192, 192, 192));

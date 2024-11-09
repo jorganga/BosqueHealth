@@ -30,7 +30,8 @@ public class VentanaLogin extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
+
 		txtUsuario = new JTextField();
 		txtUsuario.setBounds(70, 71, 149, 20);
 		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));

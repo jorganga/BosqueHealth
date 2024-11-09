@@ -23,41 +23,42 @@ public class VentanaCrearExamen extends JFrame{
 	public VentanaCrearExamen() {
 		setTitle("Examen");
 		setResizable(false);
-		setBounds(100, 100, 573, 463);
+		setBounds(100, 100, 685, 538);
 		getContentPane().setLayout(null);
 		
 		txtSeguimiento = new JTextArea();
-		txtSeguimiento.setBounds(10, 141, 536, 212);
+		txtSeguimiento.setBackground(new Color(192, 192, 192));
+		txtSeguimiento.setBounds(74, 198, 536, 212);
 		getContentPane().add(txtSeguimiento);
 		
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(VentanaCrearExamen.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
-		lblLogo.setBounds(452, 4, 100, 100);
+		lblLogo.setBounds(569, 0, 100, 100);
 		getContentPane().add(lblLogo);
 		
 		lblIdPaciente = new JLabel("ID Paciente");
-		lblIdPaciente.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblIdPaciente.setBounds(9, 31, 432, 20);
+		lblIdPaciente.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblIdPaciente.setBounds(71, 89, 432, 20);
 		getContentPane().add(lblIdPaciente);
 		
 		lblIdMedico = new JLabel("ID Medico");
-		lblIdMedico.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblIdMedico.setBounds(9, 62, 432, 20);
+		lblIdMedico.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblIdMedico.setBounds(71, 120, 432, 20);
 		getContentPane().add(lblIdMedico);
 		
 		btnCrearExamen = new JButton("Crear Examen");
 		btnCrearExamen.setBackground(new Color(128, 128, 128));
 		btnCrearExamen.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrearExamen.setBounds(154, 361, 275, 43);
+		btnCrearExamen.setBounds(218, 418, 275, 43);
 		getContentPane().add(btnCrearExamen);
 		
 		cboTipoExamen = new JComboBox();
-		cboTipoExamen.setBounds(10, 108, 406, 22);
+		cboTipoExamen.setBounds(74, 151, 406, 22);
 		getContentPane().add(cboTipoExamen);
 		
 		lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(VentanaCrearExamen.class.getResource("/view/pexels-francesco-ungaro-281260 (4).jpg")));
-		lblBackground.setBounds(0, 0, 688, 424);
+		lblBackground.setIcon(new ImageIcon(VentanaCrearExamen.class.getResource("/view/pexels-francesco-ungaro-281260 (2).jpg")));
+		lblBackground.setBounds(0, 0, 669, 499);
 		getContentPane().add(lblBackground);
 		
 		JLabel lblNewLabel = new JLabel("Seleccione el Tipo de Examen");
