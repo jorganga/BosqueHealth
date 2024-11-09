@@ -44,6 +44,8 @@ public class Control implements ActionListener {
 	ArrayList<Profesional> listaDeDoctores;
 	ArrayList<TurnoDTO> listaDeTurnos;
 	ArrayList<CitaDTO> listaCitas;
+	ArrayList<TratamientoMedicoDTO> listaTratamientos;
+	
 	VentanaLogin ventanaLogin;
 	VentanaPrincipal ventanaPrincipal;
 	VentanaTurnos ventanaTurnos;
@@ -62,6 +64,7 @@ public class Control implements ActionListener {
 	AdminCita adminCita;
 	AdminProfesional adminProfesional;
 	AdminPacientes adminP;
+	AdminTratamiento adminTrata;
 	Paciente pacienteActivo;
 	PacienteDAO pacienteDao;
 	Timer timer;
@@ -120,6 +123,7 @@ public class Control implements ActionListener {
 
 		adminCita = new AdminCita();
 		adminP = new AdminPacientes();
+		adminTrata = new AdminTratamiento();
 
 		adminProfesional.CargarEspecialistas(administrador.getListaEspecialidades());
 		listaDeDoctores = adminProfesional.getListaProfesionales();
@@ -316,6 +320,12 @@ public class Control implements ActionListener {
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
 		ventanaMCita.tableMostrarCita.setModel(tableModelCita);
 	}
+	
+	private void refrescarTratamientos() {
+		listaTratamientos = adminTrata.listarTratamientos(pacienteActivo);
+		DefaultTableModel tableModelTratamiento = adminTrata.cargarReporteTratamientos(listaTratamientos);
+		ventanaCreacion.tableSeguimientos.setModel(tableModelTratamiento);
+	}
 
 	
 	private void loginUsuario()
@@ -415,6 +425,7 @@ public class Control implements ActionListener {
 		if (pacienteActivo != null)
 		{
 			ventanaCreacion.lblPaciente.setText(pacienteActivo.getNombre());
+			refrescarTratamientos();
 		}
 		
 	}
@@ -430,12 +441,12 @@ public class Control implements ActionListener {
 	}
 	
 	private void crearTratamiento() {
-		if (ventanaTratamiento.textTratamiento.getText().equals("")) {
+		if (ventanaTratamiento.txtSeguimiento.getText().equals("")) {
 			showMessageDialog(null, "Ingrese una descripción!");
 			return;
 		}
 		
-		if (adminP.crearTratamiento(ventanaTratamiento.textTratamiento.getText(), pacienteActivo, userActivo)) {
+		if (adminTrata.crearTratamiento(ventanaTratamiento.txtSeguimiento.getText(), pacienteActivo, userActivo)) {
 			showMessageDialog(null, "Tratamiento registrado");
 			ventanaTratamiento.setVisible(false);
 		}

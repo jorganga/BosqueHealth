@@ -12,10 +12,10 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 
 public class VentanaCreacion extends JFrame{
-	private JTable tableSeguimientos;
+	public JTable tableSeguimientos;
 	public JButton btnBuscarPaciente;
 	public JLabel lblPaciente;
-	private JTable tableExamenes;
+	public JTable tableExamenes;
 	public JButton btnNuevoSeguimiento;
 	public JButton btnSolicitarExamenes;
 	

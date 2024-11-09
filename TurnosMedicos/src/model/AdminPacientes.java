@@ -90,20 +90,7 @@ public class AdminPacientes {
 		return tableModel;
 	}
 	
-	public boolean crearTratamiento(String descricion, Paciente miPaciente, Profesional medico) {
-
-		TratamientoMedicoDAO daoTratamiento = new TratamientoMedicoDAO(); 
-		TratamientoMedicoDTO tratamientoDTO = new TratamientoMedicoDTO();
-
-		TratamientoMedico tratamiento = new TratamientoMedico(LocalDate.now(), miPaciente, medico, descricion);
-		
-		tratamientoDTO = DataMapperTratamientoMedico.TratamientoMedicoToTratamientoMedicoDTO(tratamiento);
-		
-		return daoTratamiento.add(tratamientoDTO);
-
-		//notificarCitaCreada(laCita);
-		
-	}
+	
 
 	
 	
