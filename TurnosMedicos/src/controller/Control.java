@@ -19,7 +19,6 @@ import javax.mail.MessageAware;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 import model.*;
