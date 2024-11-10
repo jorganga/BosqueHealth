@@ -98,6 +98,7 @@ public class AdminPacientes {
 		return tableModel;
 	}
 	
+	//crear un nuevo paciente
 	public boolean crearPaciente(String identificacion, String nombre, 
 			String email, String tipoSanguineo, String fechaNacimiento, String peso) {
 		
