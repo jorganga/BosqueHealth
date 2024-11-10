@@ -69,7 +69,7 @@ public class VentanaCita extends JFrame {
 		btnCrearCita = new JButton("Crear Cita");
 		btnCrearCita.setBackground(new Color(128, 128, 128));
 		btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrearCita.setBounds(337, 472, 163, 40);
+		btnCrearCita.setBounds(337, 462, 163, 40);
 		contentPane.add(btnCrearCita);
 		
 		lblFlecha = new JLabel("");
