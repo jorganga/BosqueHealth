@@ -1,7 +1,6 @@
 package model;
 
 import model.persistence.TurnoDAO;
-
 public class ModelFacade {
 
 	private TurnoDAO mdao;

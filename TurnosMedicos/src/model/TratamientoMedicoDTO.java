@@ -1,7 +1,9 @@
 package model;
 
 import java.time.LocalDate;
-
+/**
+ * Representa un objeto de transferencia de datos (DTO) para la entidad TratamientoMedico.
+ */
 public class TratamientoMedicoDTO {
 		private String id;
 		private LocalDate fecha;

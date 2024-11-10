@@ -1,7 +1,10 @@
 package model;
 
 import java.io.Serializable;
-
+/**
+ * Representa un tipo de examen médico.
+ * Contiene información relacionada con el tipo de examen, como su ID y nombre.
+ */
 public class TipoExamen  implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden

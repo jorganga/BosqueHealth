@@ -1,5 +1,7 @@
 package model;
-
+/**
+ * Representa un objeto de transferencia de datos (DTO) para la entidad TipoExamen.
+ */
 public class TipoExamenDTO {
 	private String id;
 	private String nombre;

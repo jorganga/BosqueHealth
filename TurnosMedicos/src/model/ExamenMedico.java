@@ -3,7 +3,10 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
-
+/**
+ * Clase que representa un examen médico realizado a un paciente.
+ * Contiene información sobre el tipo de examen, la fecha, el médico, el paciente y una nota.
+ */
 public class ExamenMedico implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L;

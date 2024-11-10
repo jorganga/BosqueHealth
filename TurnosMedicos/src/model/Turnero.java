@@ -12,10 +12,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Esta clase gestiona los turnos de los doctores, asignando turnos en fechas
+ * específicas y asegurando que no haya superposición de turnos o sobrecarga de
+ * trabajo para los médicos.
+ */
 public class Turnero {
 	ArrayList<Profesional> listaDeDoctores;
 	ArrayList<Turno> listaTurnos;
 
+	/**
+	 * Constructor que inicializa las listas de doctores y turnos.
+	 */
 	public Turnero() {
 		// TODO Auto-generated constructor stub
 		listaDeDoctores = new ArrayList<Profesional>();
@@ -38,6 +46,10 @@ public class Turnero {
 		this.listaTurnos = listaTurnos;
 	}
 
+	/**
+	 * Asigna los turnos a los doctores disponibles en el mes, comenzando desde una
+	 * fecha específica.
+	 */
 	public void asignarTurnos(LocalDate fecha) {
 
 		Profesional doctorTurno = null;
@@ -84,6 +96,9 @@ public class Turnero {
 		}
 	}
 
+	/**
+	 * Verifica si un doctor está disponible para un turno en una fecha específica.
+	 */
 	private boolean doctorDisponible(Profesional doctor, LocalDate fechaTurno) {
 		boolean disponible = false;
 		long dias = 0;
@@ -119,11 +134,17 @@ public class Turnero {
 		return disponible;
 	}
 
+	/**
+	 * Convierte una fecha LocalDate en un objeto Date.
+	 */
 	private Date TransformarFecha(LocalDate fecha) {
 		ZoneId defaultZoneId = ZoneId.systemDefault();
 		return Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
+	/**
+	 * Obtiene el número de semana en el año para una fecha específica.
+	 */
 	private int obtenerSemanaFecha(Date fecha) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setFirstDayOfWeek(Calendar.SUNDAY);
@@ -133,6 +154,9 @@ public class Turnero {
 		return calendar.get(Calendar.WEEK_OF_YEAR);
 	}
 
+	/**
+	 * Obtiene el número de semana en el año para una fecha LocalDate dada.
+	 */
 	private int obtenerSemanaFecha(LocalDate fecha) {
 
 		ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -146,6 +170,9 @@ public class Turnero {
 		return calendar.get(Calendar.WEEK_OF_YEAR);
 	}
 
+	/**
+	 * Crea y asigna un turno para un doctor en una fecha específica.
+	 */
 	private void crearTurno(Profesional doctor, LocalDate fechaTurno) {
 		int numeroSemanaDoctor = 0;
 
@@ -165,13 +192,13 @@ public class Turnero {
 		doctor.setFechaUltimoTurno(fechaTurno);
 
 		Turno nuevoTurno;
-		
-		LocalTime hora = LocalTime.of(0, 0, 0); 
+
+		LocalTime hora = LocalTime.of(0, 0, 0);
 
 		for (int i = 0; i < 24; i++) {
 			hora = LocalTime.of(i, 0, 0);
 			nuevoTurno = new Turno(doctor, fechaTurno, hora);
-			
+
 			listaTurnos.add(nuevoTurno);
 		}
 
@@ -182,6 +209,9 @@ public class Turnero {
 
 	}
 
+	/**
+	 * Valida si un mes tiene turnos asignados para una fecha específica.
+	 */
 	public boolean MesValido(LocalDate fecha) {
 		List<Turno> listaValidacionMes;
 		listaValidacionMes = listaTurnos.stream().filter(turn -> turn.getFecha().equals(fecha))

@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
-
+/**
+ * Representa una persona con nombre, identificación y correo electrónico.
+ */
 public class Persona implements Serializable {
 	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden
 	private String nombre;

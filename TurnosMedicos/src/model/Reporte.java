@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * Clase encargada de generar reportes en formato de tabla para los turnos de
+ * los especialistas y las citas médicas.
+ */
 public class Reporte {
 	
 	public DefaultTableModel GenerarReporteTurnosPorEspecialista(ArrayList<TurnoDTO> lista) {
@@ -37,7 +40,9 @@ public class Reporte {
 		return tableModel;
 	}
 	
-	
+	/**
+	 * Genera un reporte de las citas médicas, con los detalles de cada cita.
+	 */
 	public DefaultTableModel GenerarReporteTurnosMes(ArrayList<TurnoDTO> lista) {
 		
 		String especialidad = "";

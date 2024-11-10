@@ -41,6 +41,12 @@ import view.VentanaTurnos;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * Clase Control que gestiona la lógica de negocio entre las vistas y los
+ * modelos de datos en la aplicación clínica. Se encarga de manejar los eventos
+ * de usuario, actualizar vistas y gestionar operaciones como asignación de
+ * turnos, citas, tratamientos y exámenes médicos.
+ */
 public class Control implements ActionListener {
 
 	ArrayList<Profesional> listaDeDoctores;
@@ -48,7 +54,7 @@ public class Control implements ActionListener {
 	ArrayList<CitaDTO> listaCitas;
 	ArrayList<TratamientoMedicoDTO> listaTratamientos;
 	ArrayList<ExamenMedicoDTO> listaExamenes;
-	
+
 	VentanaLogin ventanaLogin;
 	VentanaPrincipal ventanaPrincipal;
 	VentanaTurnos ventanaTurnos;
@@ -60,7 +66,7 @@ public class Control implements ActionListener {
 	VentanaCrearSeguimiento ventanaTratamiento;
 	VentanaCrearExamen ventanaExamen;
 	VentanaCrearPaciente ventanaCrearPac;
-	
+
 	ArrayList<PacienteDTO> listaPaciente; // luego borrar
 	Reporte reporteTurnos;
 	CitaDAO citaDao;
@@ -77,11 +83,19 @@ public class Control implements ActionListener {
 
 	private ModelFacade mf;
 
+	/**
+	 * Constructor de la clase Control. Inicializa las variables necesarias para el
+	 * funcionamiento del controlador.
+	 */
 	public Control() {
 		reporteTurnos = new Reporte();
 		mf = new ModelFacade();
 	}
 
+	/**
+	 * Método principal para iniciar las ventanas y configuraciones iniciales del
+	 * sistema.
+	 */
 	public void Funcionar() {
 
 		// Email email = new Email("Prueba email Bosque Health", "jor_angulo@yahoo.es",
@@ -99,7 +113,7 @@ public class Control implements ActionListener {
 		ventanaTratamiento = new VentanaCrearSeguimiento();
 		ventanaExamen = new VentanaCrearExamen();
 		ventanaCrearPac = new VentanaCrearPaciente();
-		
+
 		ventanaLogin.btnLogin.addActionListener(this);
 
 		ventanaLogin.btnLogin.addActionListener(this);
@@ -115,25 +129,25 @@ public class Control implements ActionListener {
 		ventanaAsignarTurnos.cboxPeriodo.addActionListener(this);
 
 		ventanaCita.btnCrearCita.addActionListener(this);
-		
+
 		ventanaBuscarPaciente.btnBuscar.addActionListener(this);
 		ventanaBuscarPaciente.btnSeleccionar.addActionListener(this);
-		
+
 		ventanaCreacion.btnBuscarPaciente.addActionListener(this);
 		ventanaCreacion.btnNuevoSeguimiento.addActionListener(this);
 		ventanaCreacion.btnSolicitarExamenes.addActionListener(this);
-		
+
 		ventanaTratamiento.btnCrearSegumiento.addActionListener(this);
-		
+
 		ventanaExamen.btnCrearExamen.addActionListener(this);
-		
+
 		ventanaCrearPac.btnCrearPaciente.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
 
 		administrador = new AdminClinica(null);
 		administrador.cargarEspecialidades();
-		
+
 		adminCita = new AdminCita();
 		adminP = new AdminPacientes();
 		adminTrata = new AdminTratamiento();
@@ -151,6 +165,10 @@ public class Control implements ActionListener {
 		// enviarEmailsRecordarCitas();
 	}
 
+	/**
+	 * Inicia el temporizador para tareas automáticas, como envío de correos
+	 * electrónicos.
+	 */
 	private void startTimer() {
 		TimerTask task = new TimerTask() {
 			@Override
@@ -164,6 +182,9 @@ public class Control implements ActionListener {
 		timer.scheduleAtFixedRate(task, 0, 10000);
 	}
 
+	/**
+	 * Muestra la ventana para asignar turnos.
+	 */
 	private void mostrarVentanaAsignarTurnos() {
 
 		if (ventanaAsignarTurnos.cboxPeriodo.getItemCount() == 0) {
@@ -176,6 +197,9 @@ public class Control implements ActionListener {
 		ventanaAsignarTurnos.setVisible(true);
 	}
 
+	/*
+	 * Muestra la ventana de reporte de los turnos
+	 */
 	private void mostrarVentanaReporeteTurnos() {
 
 		DefaultTableModel tableModel = reporteTurnos.GenerarReporteTurnosPorEspecialista(listaDeTurnos);
@@ -184,6 +208,9 @@ public class Control implements ActionListener {
 		ventanaTurnos.setVisible(true);
 	}
 
+	/**
+	 * Carga los datos de los turnos disponibles.
+	 */
 	private void cargarTurnos() {
 		TurnoDAO adminTurnos = new TurnoDAO();
 		listaDeTurnos = adminTurnos.getAllActivos();
@@ -192,6 +219,9 @@ public class Control implements ActionListener {
 		ventanaCita.tableTurnos.setModel(tableModel);
 	}
 
+	/**
+	 * Genera turnos para un periodo seleccionado.
+	 */
 	private void generarTurnos() {
 
 		if (ventanaAsignarTurnos.cboxPeriodo.getSelectedIndex() < 0) {
@@ -211,6 +241,11 @@ public class Control implements ActionListener {
 		ventanaAsignarTurnos.setVisible(true);
 	}
 
+	/**
+	 * Controlador para gestionar eventos de la interfaz gráfica. Maneja las
+	 * interacciones del usuario con botones y ventanas, y ejecuta las acciones
+	 * correspondientes.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (ventanaPrincipal.btnAsignarTurnos == e.getSource()) {
@@ -247,43 +282,50 @@ public class Control implements ActionListener {
 		if (ventanaCCita.btnCancelarCita == e.getSource()) {
 			cancelarCita();
 		}
-		if(ventanaCreacion.btnBuscarPaciente == e.getSource()) {
+		if (ventanaCreacion.btnBuscarPaciente == e.getSource()) {
 			mostrarVentanaBuscarPaciente();
 		}
-		if(ventanaBuscarPaciente.btnBuscar == e.getSource()) {
-			
+		if (ventanaBuscarPaciente.btnBuscar == e.getSource()) {
+
 		}
-		if(ventanaBuscarPaciente.btnSeleccionar == e.getSource()) {
+		if (ventanaBuscarPaciente.btnSeleccionar == e.getSource()) {
 			seleccionarPacienteActivo();
 		}
-		if(ventanaCreacion.btnNuevoSeguimiento == e.getSource()) {
+		if (ventanaCreacion.btnNuevoSeguimiento == e.getSource()) {
 			mostrarVentanaCrearTratamiento();
 		}
-		if(ventanaTratamiento.btnCrearSegumiento == e.getSource()) {
+		if (ventanaTratamiento.btnCrearSegumiento == e.getSource()) {
 			crearTratamiento();
 		}
-		if(ventanaCreacion.btnSolicitarExamenes == e.getSource()) {
+		if (ventanaCreacion.btnSolicitarExamenes == e.getSource()) {
 			mostrarVentanaCrearExamen();
 		}
-		if(ventanaExamen.btnCrearExamen == e.getSource()) {
+		if (ventanaExamen.btnCrearExamen == e.getSource()) {
 			crearExamen();
 		}
-		if(ventanaCrearPac.btnCrearPaciente == e.getSource()) {
+		if (ventanaCrearPac.btnCrearPaciente == e.getSource()) {
 			crearPaciente();
 		}
-		
+
 	}
 
+	/**
+	 * Carga la lista de pacientes desde la base de datos o los carga con datos demo
+	 * si está vacía.
+	 */
 	private void cargarPacientes() {
 		listaPaciente = adminP.listarPacientes();
-		
-		if (listaPaciente.size() == 0)
-		{
+
+		if (listaPaciente.size() == 0) {
 			adminP.CargarPacientesDemo();
 			listaPaciente = DataMapperPaciente.listaPacienteToListaPacienteDTO(adminP.getListadoPacientes());
 		}
 	}
 
+	/**
+	 * Muestra la ventana para crear citas médicas, cargando la lista de pacientes y
+	 * especialidades.
+	 */
 	private void mostrarVentanaCitas() {
 		DefaultListModel<PacienteDTO> modelo = new DefaultListModel<>();
 
@@ -302,6 +344,10 @@ public class Control implements ActionListener {
 		ventanaCita.setVisible(true);
 	}
 
+	/**
+	 * Crea una nueva cita médica. Se valida si se ha seleccionado un paciente y un
+	 * turno disponible.
+	 */
 	private void crearCita() {
 
 		String resultado = "";
@@ -315,11 +361,11 @@ public class Control implements ActionListener {
 		}
 
 		if (resultado.isEmpty()) {
-			PacienteDTO pacienteSeleccionado = (PacienteDTO)ventanaCita.listaPacientes.getSelectedValue();
+			PacienteDTO pacienteSeleccionado = (PacienteDTO) ventanaCita.listaPacientes.getSelectedValue();
 			String id = ventanaCita.tableTurnos.getValueAt(ventanaCita.tableTurnos.getSelectedRow(), 0).toString();
-			
+
 			Paciente pacienteCita = DataMapperPaciente.PacienteDTOToPaciente(pacienteSeleccionado);
-			
+
 			if (agendarCita(id, pacienteCita)) {
 				resultado = "Cita creada exitosamente!";
 				cargarTurnos();
@@ -328,6 +374,10 @@ public class Control implements ActionListener {
 		showMessageDialog(null, resultado);
 	}
 
+	/**
+	 * Crea una nueva cita médica. Se valida si se ha seleccionado un paciente y un
+	 * turno disponible.
+	 */
 	private boolean agendarCita(String idTurno, Paciente pac) {
 		try {
 			adminCita.crearCita(idTurno, pac);
@@ -337,37 +387,58 @@ public class Control implements ActionListener {
 		}
 	}
 
+	/**
+	 * Muestra la ventana para cancelar citas.
+	 */
 	private void mostrarVentanaCancelarCita() {
 		refrescarCitas();
 		ventanaCCita.setVisible(true);
 	}
 
+	/**
+	 * Refresca la lista de citas disponibles y actualiza la tabla con los datos más
+	 * recientes.
+	 */
 	private void refrescarCitas() {
 		listaCitas = adminCita.listarCitas();
 		DefaultTableModel tableModelCita = reporteTurnos.GenerarReporteCitas(listaCitas);
 		ventanaCCita.tableMostrarCita.setModel(tableModelCita);
 	}
-	
+
+	/**
+	 * Refresca la lista de tratamientos asociados al paciente activo y actualiza la
+	 * tabla con los datos más recientes.
+	 */
 	private void refrescarTratamientos() {
 		listaTratamientos = adminTrata.listarTratamientos(pacienteActivo);
 		DefaultTableModel tableModelTratamiento = adminTrata.cargarReporteTratamientos(listaTratamientos);
 		ventanaCreacion.tableSeguimientos.setModel(tableModelTratamiento);
 	}
-	
+
+	/**
+	 * Refresca la lista de exámenes solicitados para el paciente activo y actualiza
+	 * la tabla con los datos más recientes.
+	 */
 	private void refrescarExamenes() {
 		listaExamenes = adminExamen.listarExamenesPaciente(pacienteActivo);
 		DefaultTableModel tableModelExamen = adminExamen.cargarReporteExamenes(listaExamenes);
 		ventanaCreacion.tableExamenes.setModel(tableModelExamen);
 	}
-	
+
+	/**
+	 * Refresca la lista de pacientes y actualiza la tabla con los datos más
+	 * recientes.
+	 */
 	private void refrescarPacientes() {
 		listaPaciente = adminP.listarPacientes();
 	}
-	
-	private void loginUsuario()
-	{
+
+	/*
+	 * Sirve para ingresar como usuario
+	 */
+	private void loginUsuario() {
 		String pwd = new String(ventanaLogin.pwd.getPassword());
-		
+
 		if (ventanaLogin.txtUsuario.getText().equals("")) {
 			showMessageDialog(null, "Ingrese el nombre de usuario!");
 			return;
@@ -392,20 +463,32 @@ public class Control implements ActionListener {
 		}
 	}
 
+	/**
+	 * Muestra u oculta los controles específicos para un director en la ventana
+	 * principal.
+	 */
 	private void mostrarControlesDirector(boolean esDirector) {
 		ventanaPrincipal.btnAsignarTurnos.setVisible(esDirector);
 	}
 
+	/**
+	 * Carga los datos de la clínica, incluidos los pacientes y los turnos
+	 * disponibles.
+	 */
 	private void cargarDatosClinica() {
 		administrador.setUserActivo(userActivo);
 		cargarPacientes();
 		cargarTurnos();
 	}
-
+	/**
+	 * Envia recordatorios de citas a los pacientes por correo electrónico.
+	 */
 	private void enviarEmailsRecordarCitas() {
 		adminCita.enviarEmailsRecordarCitas();
 	}
-
+	/**
+	 * Cancela una cita seleccionada de la lista de citas.
+	 */
 	private void cancelarCita() {
 
 		String mensaje = "";
@@ -429,45 +512,58 @@ public class Control implements ActionListener {
 		refrescarCitas();
 		ventanaCCita.setVisible(true);
 	}
+	/**
+	 * Muestra la ventana de creación de seguimiento para el paciente activo.
+	 */
 	private void mostrarVentanaCreacion() {
 		cargarDatosVentanaSeguimientos();
 		ventanaCreacion.setVisible(true);
-		
+
 	}
-	
+	/**
+	 * Muestra la ventana de búsqueda de pacientes.
+	 */
 	private void mostrarVentanaBuscarPaciente() {
 		ventanaBuscarPaciente.setVisible(true);
-		
-		ventanaBuscarPaciente.tablePaciente.setModel(adminP.cargarReportePacientes(listaPaciente)); 
+
+		ventanaBuscarPaciente.tablePaciente.setModel(adminP.cargarReportePacientes(listaPaciente));
 	}
-	
+	/**
+	 * Selecciona un paciente de la lista de búsqueda y carga su información en la
+	 * ventana de seguimiento.
+	 */
 	private void seleccionarPacienteActivo() {
-		if(ventanaBuscarPaciente.tablePaciente.getSelectedRow() == -1) {
+		if (ventanaBuscarPaciente.tablePaciente.getSelectedRow() == -1) {
 			showMessageDialog(null, "Seleccione un paciente!");
 			return;
 		}
-		String identificacion = ventanaBuscarPaciente.tablePaciente.
-				getValueAt(ventanaBuscarPaciente.tablePaciente.getSelectedRow(), 0).toString();
+		String identificacion = ventanaBuscarPaciente.tablePaciente
+				.getValueAt(ventanaBuscarPaciente.tablePaciente.getSelectedRow(), 0).toString();
 		Paciente pacienteBuscar = new Paciente();
 		pacienteBuscar.setId(identificacion);
-		
+
 		pacienteDao = new PacienteDAO();
 		pacienteActivo = pacienteDao.find(pacienteBuscar);
-		
+
 		cargarDatosVentanaSeguimientos();
 		ventanaBuscarPaciente.setVisible(false);
 	}
-	
+	/**
+	 * Carga los datos del paciente activo en la ventana de seguimiento. Muestra el
+	 * nombre del paciente y actualiza las listas de tratamientos y exámenes.
+	 */
 	private void cargarDatosVentanaSeguimientos() {
-		if (pacienteActivo != null)
-		{
+		if (pacienteActivo != null) {
 			ventanaCreacion.lblPaciente.setText(pacienteActivo.getNombre());
 			refrescarTratamientos();
 			refrescarExamenes();
 		}
-		
+
 	}
-	
+	/**
+	 * Muestra la ventana para crear un nuevo tratamiento para el paciente activo.
+	 * Si no hay un paciente seleccionado, muestra un mensaje de advertencia.
+	 */
 	private void mostrarVentanaCrearTratamiento() {
 		if (pacienteActivo == null) {
 			showMessageDialog(null, "Seleccione primero un paciente!");
@@ -478,7 +574,10 @@ public class Control implements ActionListener {
 		ventanaTratamiento.lblIdPaciente.setText("Paciente: " + pacienteActivo.getNombre());
 		ventanaTratamiento.txtSeguimiento.setText("");
 	}
-	
+	/**
+	 * Muestra la ventana para crear un nuevo examen para el paciente activo. Si no
+	 * hay un paciente seleccionado, muestra un mensaje de advertencia.
+	 */
 	private void mostrarVentanaCrearExamen() {
 		if (pacienteActivo == null) {
 			showMessageDialog(null, "Seleccione primero un paciente!");
@@ -487,32 +586,40 @@ public class Control implements ActionListener {
 		ventanaExamen.lblIdMedico.setText("Profesional: " + userActivo.getNombre());
 		ventanaExamen.lblIdPaciente.setText("Paciente: " + pacienteActivo.getNombre());
 		ventanaExamen.txtSeguimiento.setText("");
-		
+
 		DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel<TipoExamen>(
-		adminExamen.getListaTipoExamen().toArray(new TipoExamen[0]));
+				adminExamen.getListaTipoExamen().toArray(new TipoExamen[0]));
 
 		ventanaExamen.cboTipoExamen.setModel(modeloCombo);
 		ventanaExamen.setVisible(true);
-		
+
 	}
-	
+
 	private void mostrarVentanaCrearPaciente() {
 		ventanaCrearPac.setVisible(true);
 	}
-	
+	/**
+	 * Crea un tratamiento para el paciente activo, validando que la descripción no
+	 * esté vacía. Si el tratamiento se registra correctamente, actualiza la lista
+	 * de tratamientos.
+	 */
 	private void crearTratamiento() {
 		if (ventanaTratamiento.txtSeguimiento.getText().equals("")) {
 			showMessageDialog(null, "Ingrese una descripción!");
 			return;
 		}
-		
+
 		if (adminTrata.crearTratamiento(ventanaTratamiento.txtSeguimiento.getText(), pacienteActivo, userActivo)) {
 			showMessageDialog(null, "Tratamiento registrado");
 			refrescarTratamientos();
 			ventanaTratamiento.setVisible(false);
 		}
 	}
-	
+	/**
+	 * Crea un examen para el paciente activo, validando que la descripción y el
+	 * tipo de examen estén completos. Si el examen se registra correctamente,
+	 * actualiza la lista de exámenes.
+	 */
 	private void crearExamen() {
 		if (ventanaExamen.txtSeguimiento.getText().equals("")) {
 			showMessageDialog(null, "Ingrese una descripción!");
@@ -522,17 +629,17 @@ public class Control implements ActionListener {
 			showMessageDialog(null, "Seleccione un tipo de examen!");
 			return;
 		}
-		
-		TipoExamen tipoEx = (TipoExamen)ventanaExamen.cboTipoExamen.getSelectedItem();
-		
+
+		TipoExamen tipoEx = (TipoExamen) ventanaExamen.cboTipoExamen.getSelectedItem();
+
 		if (adminExamen.crearExamen(tipoEx, userActivo, pacienteActivo, ventanaExamen.txtSeguimiento.getText())) {
 			showMessageDialog(null, "Examen registrado");
 			refrescarExamenes();
 			ventanaExamen.setVisible(false);
 		}
-		
+
 	}
-	
+
 	private void crearPaciente() {
 		if (ventanaCrearPac.txtIdentificacion.getText().equals("")) {
 			showMessageDialog(null, "Ingrese una Identificación!");
@@ -558,14 +665,14 @@ public class Control implements ActionListener {
 			showMessageDialog(null, "Ingrese una tipo de sangre");
 			return;
 		}
-		
+
 		String identificacion = ventanaCrearPac.txtIdentificacion.getText();
 		String nombre = ventanaCrearPac.txtNombre.getText();
 		String email = ventanaCrearPac.txtEmail.getText();
 		String fechaN = ventanaCrearPac.txtFechaNacimiento.getText();
 		String peso = ventanaCrearPac.txtPeso.getText();
 		String tipoS = ventanaCrearPac.txtTipoSangre.getText();
-		
+
 		if (adminP.crearPaciente(identificacion, nombre, email, tipoS, fechaN, peso)) {
 			showMessageDialog(null, "Paciente registrado");
 			refrescarPacientes();
@@ -577,7 +684,7 @@ public class Control implements ActionListener {
 			ventanaCrearPac.txtPeso.setText("");
 			ventanaCrearPac.setVisible(false);
 		}
-		
+
 	}
 
 }

@@ -1,7 +1,9 @@
 package model;
 
 import java.time.LocalDate;
-
+/**
+ * Clase que representa un DTO (Data Transfer Object) para un examen médico.
+ */
 public class ExamenMedicoDTO {
 	private String id;
 	private TipoExamen tipo;

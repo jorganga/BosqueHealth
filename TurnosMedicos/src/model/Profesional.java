@@ -2,7 +2,10 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
+/**
+ * Representa a un profesional que es un tipo de persona con atributos adicionales
+ * como turnos por semana, fecha del último turno, especialidad, y si es director.
+ */
 public class Profesional extends Persona implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden

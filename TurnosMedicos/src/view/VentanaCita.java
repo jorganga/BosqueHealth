@@ -18,7 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-
+/**
+ * Ventana para la creación de un paciente en la aplicación.
+ * Permite ingresar los datos personales del paciente, como nombre, identificación, 
+ * correo electrónico, tipo de sangre, peso y fecha de nacimiento.
+ */
 public class VentanaCita extends JFrame {
 
 	private static final long serialVersionUID = 1L;

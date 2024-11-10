@@ -2,7 +2,9 @@ package model;
 
 import java.time.LocalDate;
 import java.util.Date;
-
+/**
+ * Representa un objeto de transferencia de datos (DTO) para la entidad Paciente.
+ */
 public class PacienteDTO extends Persona {
 	private String tipoSangre;
 	private int peso;

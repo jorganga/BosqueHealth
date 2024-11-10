@@ -8,7 +8,10 @@ import model.CitaDTO;
 import model.Cita;
 import model.CitaDTO;
 import model.Turno;
-
+/**
+ * Esta clase maneja operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para las citas.
+ * Utiliza archivos CSV y binarios para la persistencia de datos.
+ */
 public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 
 	private ArrayList<Cita> listaCitas;
@@ -17,13 +20,18 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 	private final String SERIAL_NAME = "cita.bin"; // .dat o .bin
 	
 	
-	
+	/**
+     * Constructor de la clase CitaDAO.
+     * Verifica la existencia de la carpeta y carga los datos desde archivos CSV y binarios.
+     */
 	public CitaDAO() {
 		FileHandler.checkFolder();
 		readFile();
 		readSerializable();
 	}
-
+	/**
+     * Muestra todas las citas en formato de texto.
+     */
 	@Override
 	public String showAll() {
 		String rta = "";
@@ -36,18 +44,25 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 			return rta;
 		}
 	}
-
+	/**
+     * Devuelve todas las citas como una lista de CitaDTO.
+     */
 	@Override
 	public ArrayList<CitaDTO> getAll() {
 		return DataMapperCita.listaCitaToListaCitaDTO(listaCitas);
 
 	}
-	
+	/**
+     * Devuelve solo las citas activas como una lista de CitaDTO.
+     */
 	public ArrayList<CitaDTO> getAllActiva() {
 		return DataMapperCita.listaCitaToListaCitaDTO(listaCitasActivas);
 		
 	}
-
+	/**
+     * Añade una nueva cita a la lista.
+     * Verifica que la cita no exista antes de agregarla.
+     */
 	@Override
 	public boolean add(CitaDTO newData) {
 		if (find(DataMapperCita.CitaDTOToCita(newData)) == null) {
@@ -60,7 +75,9 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 		}
 
 	}
-
+	/**
+     * Elimina una cita de la lista.
+     */
 	@Override
 	public boolean delete(CitaDTO toDelete) {
 		Cita found = find(DataMapperCita.CitaDTOToCita(toDelete));
@@ -72,7 +89,9 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 			return false;
 		}
 	}
-
+	/**
+     * Busca una cita por su ID.
+     */
 	@Override
 	public Cita find(Cita toFind) {
 
@@ -92,7 +111,9 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 		}
 		return null;
 	}
-
+	 /**
+     * Actualiza una cita existente con nuevos datos.
+     */
 	@Override
 	public boolean update(CitaDTO previous, CitaDTO newData) {
 		Cita found = find(DataMapperCita.CitaDTOToCita(previous));
@@ -106,7 +127,9 @@ public class CitaDAO implements CRUDOperation<CitaDTO, Cita>{
 			return false;
 		}
 	}
-
+	 /**
+     * Guarda las citas en un archivo CSV.
+     */
 	public void writeFile() {
 		String content = "";
 		for (Cita m : listaCitas) {

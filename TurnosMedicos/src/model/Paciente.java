@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Clase que representa a un paciente, heredando los atributos comunes de la clase Persona.
+ * Incluye información adicional relacionada con la salud del paciente, como tipo de sangre y peso.
+ */
 public class Paciente extends Persona implements Serializable {
 	private static final long serialVersionUID = 69379036953212014L;
 	private String tipoSangre;

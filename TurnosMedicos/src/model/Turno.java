@@ -5,7 +5,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
-
+/**
+ * Representa un turno asignado a un doctor en una fecha y hora específicas.
+ * La clase implementa Serializable para permitir la persistencia de objetos de tipo Turno.
+ */
 public class Turno  implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L; // Solo los que tienen la misma version pueden

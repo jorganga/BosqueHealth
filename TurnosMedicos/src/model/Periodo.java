@@ -1,5 +1,7 @@
 package model;
-
+/**
+ * Representa un periodo con nombre, mes y año.
+ */
 public class Periodo {
 	private String nombre;
 	private int mes;

@@ -1,47 +1,57 @@
 package model.persistence;
 
 import java.util.ArrayList;
-
 import model.ExamenMedico;
 import model.ExamenMedicoDTO;
 
-public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMedico>{
-	
+/**
+ * Esta clase maneja operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para
+ * los exámenes médicos. Utiliza archivos CSV y binarios para la persistencia de
+ * datos.
+ */
+public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMedico> {
+
 	private ArrayList<ExamenMedico> listaExamenMedico;
 	private final String FILE_NAME = "examenMedico.csv"; // csv: excel txt: texto docx:word
 	private final String SERIAL_NAME = "examenMedico.bin"; // .dat o .bin
 
+	/**
+	 * Constructor de la clase ExamenMedicoDAO. Verifica la existencia de la carpeta
+	 * y carga los datos desde archivos CSV y binarios.
+	 */
 	public ExamenMedicoDAO() {
 		FileHandler.checkFolder();
 		readFile();
 		readSerializable();
 	}
 
+	/**
+	 * Muestra todos los exámenes médicos en formato de texto.
+	 */
 	public String showAll() {
 		String rta = "";
 		if (listaExamenMedico.isEmpty()) {
-			return "No hay examenes medicos en la lista";
+			return "No hay exámenes médicos en la lista";
 		} else {
-			for (ExamenMedico ExamenMedico : listaExamenMedico) {
-				rta += ExamenMedico;
+			for (ExamenMedico examenMedico : listaExamenMedico) {
+				rta += examenMedico;
 			}
 			return rta;
 		}
 	}
 
-	public ArrayList<ExamenMedico> getListaExamenMedico() {
-		return listaExamenMedico;
-	}
-
-	public void setListaExamenMedico(ArrayList<ExamenMedico> listaExamenMedico) {
-		this.listaExamenMedico = listaExamenMedico;
-	}
-
+	/**
+	 * Devuelve todos los exámenes médicos como una lista de ExamenMedicoDTO.
+	 */
 	@Override
 	public ArrayList<ExamenMedicoDTO> getAll() {
 		return DataMapperExamenMedico.listaExamenMedicoToListaExamenMedicoDTO(listaExamenMedico);
 	}
 
+	/**
+	 * Añade un nuevo examen médico a la lista. Verifica que el examen médico no
+	 * exista antes de agregarlo.
+	 */
 	@Override
 	public boolean add(ExamenMedicoDTO newData) {
 		if (find(DataMapperExamenMedico.ExamenMedicoDTOToExamenMedico(newData)) == null) {
@@ -52,9 +62,11 @@ public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMed
 		} else {
 			return false;
 		}
-
 	}
 
+	/**
+	 * Elimina un examen médico de la lista.
+	 */
 	@Override
 	public boolean delete(ExamenMedicoDTO toDelete) {
 		ExamenMedico found = find(DataMapperExamenMedico.ExamenMedicoDTOToExamenMedico(toDelete));
@@ -67,17 +79,26 @@ public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMed
 		}
 	}
 
+	/**
+	 * Busca un examen médico en la lista.
+	 */
 	@Override
 	public ExamenMedico find(ExamenMedico toFind) {
-		// TODO Auto-generated method stub
+		// TODO Implementar búsqueda de examen médico
 		return null;
 	}
 
+	/**
+	 * Actualiza un examen médico existente con nuevos datos.
+	 */
 	@Override
 	public boolean update(ExamenMedicoDTO previous, ExamenMedicoDTO newData) {
 		return false;
 	}
 
+	/**
+	 * Guarda los exámenes médicos en un archivo CSV.
+	 */
 	public void writeFile() {
 		String content = "";
 		for (ExamenMedico m : listaExamenMedico) {
@@ -92,6 +113,9 @@ public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMed
 		FileHandler.writeFile(FILE_NAME, content);
 	}
 
+	/**
+	 * Lee los exámenes médicos desde un archivo CSV.
+	 */
 	public void readFile() {
 		String content = FileHandler.readFile(FILE_NAME);
 		if (content == "" || content == null) {
@@ -101,14 +125,21 @@ public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMed
 			String[] rows = content.split("\n");
 			for (String row : rows) {
 				String[] columns = row.split(";");
+				// Aquí se deben agregar los datos al objeto ExamenMedico, si es necesario
 			}
 		}
 	}
 
+	/**
+	 * Guarda los exámenes médicos en un archivo binario.
+	 */
 	public void writeSerializable() {
 		FileHandler.writeSerializable(SERIAL_NAME, listaExamenMedico);
 	}
 
+	/**
+	 * Lee los exámenes médicos desde un archivo binario.
+	 */
 	public void readSerializable() {
 		Object content = FileHandler.readSerializable(SERIAL_NAME);
 		if (content == null) {
@@ -117,5 +148,4 @@ public class ExamenMedicoDAO implements CRUDOperation<ExamenMedicoDTO, ExamenMed
 			listaExamenMedico = (ArrayList<ExamenMedico>) content;
 		}
 	}
-
 }

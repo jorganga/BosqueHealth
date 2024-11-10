@@ -10,12 +10,22 @@ import java.util.stream.Collectors;
 import model.persistence.*;
 import java.util.Comparator;
 
+/**
+ * Clase que gestiona la administración de citas médicas en el sistema.
+ * Proporciona métodos para la creación, visualización, recordatorio, y
+ * cancelación de citas, así como para el envío de notificaciones por correo
+ * electrónico.
+ */
 public class AdminCita {
 	private CitaDAO dao;
 	private ArrayList<Cita> listaCitas;
 	Properties properties;
 	private boolean citasDiaSiguientesNotificadas;
 
+	/**
+	 * Constructor por defecto que inicializa las propiedades del sistema y la lista
+	 * de citas.
+	 */
 	public AdminCita() {
 		// TODO Auto-generated constructor stub
 		listaCitas = new ArrayList<Cita>();
@@ -23,6 +33,9 @@ public class AdminCita {
 		properties = FileHandler.loadProperties("config.properties");
 	}
 
+	/**
+	 * Filtra y retorna la lista de turnos disponibles para una especialidad dada.
+	 */
 	public ArrayList<Turno> listarTurnosEspecialidad(int idEspecialidad) {
 
 		Turnero turnerito = new Turnero();
@@ -36,11 +49,18 @@ public class AdminCita {
 		return (ArrayList<Turno>) listaEspecialidad;
 	}
 
+	/**
+	 * Retorna una lista con todas las citas activas en el sistema.
+	 */
 	public ArrayList<CitaDTO> listarCitas() {
 		CitaDAO citaDao = new CitaDAO();
 		return citaDao.getAllActiva();
 	}
 
+	/**
+	 * Retorna una lista de citas próximas a ser recordadas según la configuración
+	 * del sistema.
+	 */
 	private ArrayList<CitaDTO> listarCitasRecordatorio() {
 		CitaDAO citaDao = new CitaDAO();
 		ArrayList<CitaDTO> listaCitasAll = citaDao.getAll();
@@ -57,6 +77,10 @@ public class AdminCita {
 
 	}
 
+	/**
+	 * Envia un correo electrónico a los profesionales de la salud con las citas del
+	 * día siguiente.
+	 */
 	public void enviarEmailsCitasDiaSiguiente(ArrayList<Profesional> listaDoctores) {
 		if (!isEnviarCitasDiaSiguiente()) {
 			return;
@@ -68,6 +92,10 @@ public class AdminCita {
 		citasDiaSiguientesNotificadas = true;
 	}
 
+	/**
+	 * Verifica si es momento de enviar notificaciones de citas para el día
+	 * siguiente.
+	 */
 	private boolean isEnviarCitasDiaSiguiente() {
 		int hora = Integer.parseInt(properties.getProperty("cita.horaNotificarCitasDiaSiguiente.hora"));
 		int minuto = Integer.parseInt(properties.getProperty("cita.horaNotificarCitasDiaSiguiente.minuto"));
@@ -88,6 +116,9 @@ public class AdminCita {
 		return true;
 	}
 
+	/**
+	 * Notifica a los profesionales sobre sus citas para el día siguiente.
+	 */
 	private void notificarCitasDiaSiguiente(ArrayList<Profesional> listaProfesionales) {
 		CitaDAO citaDao = new CitaDAO();
 		ArrayList<CitaDTO> listaCitasAll = citaDao.getAllActiva();
@@ -108,6 +139,9 @@ public class AdminCita {
 
 	}
 
+	/**
+	 * Envía la notificación de citas del día siguiente a un profesional específico.
+	 */
 	private void notificarCitasDiaSiguienteProfesional(ArrayList<CitaDTO> listaCitasProfesional, Profesional medico) {
 		String mensaje = "Dr(ra) " + medico.getNombre() + "\r\n\n";
 		LocalDate fecha = listaCitasProfesional.getFirst().getTurnito().getFecha();
@@ -125,6 +159,10 @@ public class AdminCita {
 		System.out.println("Email Citas Especialista dia Siguiente - enviado a: " + email.getDestinatario());
 	}
 
+	/**
+	 * Envia correos electrónicos a los pacientes con recordatorio de citas
+	 * próximas.
+	 */
 	public void enviarEmailsRecordarCitas() {
 		ArrayList<CitaDTO> citasNotificar = listarCitasRecordatorio();
 
@@ -133,6 +171,9 @@ public class AdminCita {
 		}
 	}
 
+	/**
+	 * Lista las citas de un médico específico, filtradas por estado "activo".
+	 */
 	public ArrayList<Cita> listarCitasEspecialista(String idMedico) {
 
 		List<Cita> listaCitasEspecialista;
@@ -146,6 +187,9 @@ public class AdminCita {
 		return (ArrayList<Cita>) listaCitasEspecialista;
 	}
 
+	/**
+	 * Crea una nueva cita y notifica al paciente por correo electrónico.
+	 */
 	public void crearCita(String idTurno, Paciente miPaciente) {
 
 		TurnoDAO daoTurno = new TurnoDAO();
@@ -171,6 +215,9 @@ public class AdminCita {
 
 	}
 
+	/**
+	 * Notifica a un paciente que su cita ha sido creada.
+	 */
 	private void notificarCitaCreada(CitaDTO citaCreada) {
 		String mensaje = "Sr(ra) " + citaCreada.getPaciente().getNombre() + "\r\n\n";
 		mensaje = mensaje + "Se ha asignado una cita médica. Estos son los datos de su cita:\r\n\n";
@@ -184,6 +231,9 @@ public class AdminCita {
 		System.out.println("Email de cita enviado a: " + email.getDestinatario());
 	}
 
+	/**
+	 * Notifica a un paciente recordando los detalles de su cita.
+	 */
 	private void notificarCitaRecordar(CitaDTO citaRecordar) {
 		String mensaje = "Sr(ra) " + citaRecordar.getPaciente().getNombre() + "\r\n\n";
 		mensaje = mensaje + "Recuerde asistir a su cita.\r\n\n";
@@ -204,8 +254,9 @@ public class AdminCita {
 
 	}
 
-	// Funcion para cancelar cita
-
+	/**
+	 * Cancela una cita y actualiza el estado en el sistema.
+	 */
 	public boolean cancelarCita(CitaDTO citaCancelar) {
 
 		citaCancelar.setEstado("cancelada");
@@ -217,10 +268,16 @@ public class AdminCita {
 
 	}
 
+	/**
+	 * Retorna la lista completa de citas en el sistema.
+	 */
 	public ArrayList<Cita> getListaCitas() {
 		return listaCitas;
 	}
 
+	/**
+	 * Establece una nueva lista de citas.
+	 */
 	public void setListaCitas(ArrayList<Cita> listaCitas) {
 		this.listaCitas = listaCitas;
 	}

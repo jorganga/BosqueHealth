@@ -2,16 +2,19 @@ package model;
 
 import java.util.UUID;
 
+/**
+ * Representa un objeto de transferencia de datos (DTO) para la entidad Cita.
+ */
 public class CitaDTO {
 	private Turno turnito;
 	private String id;
 	private boolean envioRecordatorio;
 	private Paciente paciente;
 	private String estado;
-	
+
 	public CitaDTO() {
 	}
-	
+
 	public CitaDTO(String id, Turno turnito, Paciente paciente, String estado, boolean envioRecordatorio) {
 		super();
 		this.turnito = turnito;
@@ -20,7 +23,7 @@ public class CitaDTO {
 		this.id = id;
 		this.envioRecordatorio = envioRecordatorio;
 	}
-	
+
 	public boolean isEnvioRecordatorio() {
 		return envioRecordatorio;
 	}
@@ -28,7 +31,7 @@ public class CitaDTO {
 	public void setEnvioRecordatorio(boolean envioRecordatorio) {
 		this.envioRecordatorio = envioRecordatorio;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -36,6 +39,7 @@ public class CitaDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public Turno getTurnito() {
 		return turnito;
 	}

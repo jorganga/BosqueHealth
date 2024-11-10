@@ -3,7 +3,10 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
-
+/**
+ * Representa un tratamiento médico administrado a un paciente.
+ * Contiene información sobre el paciente, el médico, la fecha del tratamiento y su descripción.
+ */
 public class TratamientoMedico implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L;

@@ -6,7 +6,11 @@ import java.util.stream.Collectors;
 import model.persistence.FileHandler;
 import model.Turno;
 import model.TurnoDTO;
-
+/**
+ * Clase que maneja las operaciones CRUD para la entidad Paciente.
+ * Permite agregar, eliminar, actualizar y consultar pacientes,
+ * así como leer y escribir información desde/para archivos.
+ */
 public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 	
 	private ArrayList<Turno> listaTurno;
@@ -15,13 +19,18 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 	
 	private final String FILE_NAME = "turno.csv"; // csv: excel txt: texto docx:word
 	private final String SERIAL_NAME = "turno.bin"; // .dat o .bin
-	
+	/**
+     * Constructor de la clase TurnoDAO.
+     * Verifica la existencia de la carpeta y carga los datos desde archivos CSV y binarios.
+     */
 	public TurnoDAO() {
 		FileHandler.checkFolder();
 		readFile();
 		readSerializable();
 	}
-	
+	/**
+     * Muestra todas los turnos en formato de texto.
+     */
 	@Override
 	public String showAll() {
 		String rta = "";
@@ -45,7 +54,9 @@ public class TurnoDAO implements CRUDOperation<TurnoDTO, Turno>{
 		return listaTurnoActivos;
 	}
 	
-
+	/**
+     * Devuelve todas las citas como una lista de CitaDTO.
+     */
 	public void setListaTurno(ArrayList<Turno> listaTurno) {
 		this.listaTurno = listaTurno;
 	}

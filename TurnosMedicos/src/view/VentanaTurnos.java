@@ -15,7 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-
+/**
+ * Constructor que inicializa los componentes visuales de la ventana de turnos.
+ * Configura el diseño de la ventana, la tabla que muestra los turnos y las etiquetas de texto.
+ */
 public class VentanaTurnos extends JFrame {
 
 	private static final long serialVersionUID = 1L;

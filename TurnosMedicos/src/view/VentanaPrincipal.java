@@ -29,7 +29,10 @@ public class VentanaPrincipal extends JFrame {
 	public JButton btnSeguimientos;
 	private JLabel lblQueDeseaHacer;
 	public JButton btnCrearPaciente;
-
+	/**
+    * Constructor que inicializa los componentes visuales de la ventana principal de la aplicación.
+    * Configura botones, etiquetas, y el fondo, permitiendo la interacción del usuario con las opciones disponibles.
+    */
 	public VentanaPrincipal() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

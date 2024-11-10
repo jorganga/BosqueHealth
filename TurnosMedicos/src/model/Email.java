@@ -12,7 +12,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import model.persistence.FileHandler;
-
+/**
+ * Clase para manejar el envío de correos electrónicos.
+ * Permite configurar el asunto, destinatario y mensaje del correo.
+ */
 public class Email {
 	private String asunto;
 	private String destinatario;
@@ -68,7 +71,9 @@ public class Email {
 		
 		properties = new Properties();
 	}
-
+	/**
+     * Método para enviar el correo electrónico.
+     */
 	public boolean EnviarMail()
 	{
 		String from = "";

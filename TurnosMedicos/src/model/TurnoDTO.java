@@ -1,5 +1,7 @@
 package model;
-
+/**
+ * Representa un objeto de transferencia de datos (DTO) para la entidad Turno.
+ */
 import java.time.LocalDate;
 import java.time.LocalTime;
 

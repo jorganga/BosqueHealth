@@ -10,7 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-
+/**
+ * Ventana que permite cancelar una cita previamente asignada.
+ * En esta ventana, el usuario puede ver una tabla con las citas programadas 
+ * y seleccionar una para cancelarla.
+ */
 public class VentanaCancelarCita extends JFrame{
 	public JTable tableMostrarCita;
 	public JButton btnCancelarCita;

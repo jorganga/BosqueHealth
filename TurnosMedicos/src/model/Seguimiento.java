@@ -3,7 +3,11 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
-
+/**
+ * Clase que representa un seguimiento médico de un paciente.
+ * Contiene la información del seguimiento, incluyendo el ID único,
+ * el ID del paciente, la descripción y la fecha en la que se realiza.
+ */
 public class Seguimiento implements Serializable {
 	
 	private static final long serialVersionUID = 6937903695321206414L; 
