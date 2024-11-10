@@ -28,7 +28,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblLogo;
 	public JButton btnSeguimientos;
 	private JLabel lblQueDeseaHacer;
-	private JButton btnCrearPaciente;
+	public JButton btnCrearPaciente;
 
 	public VentanaPrincipal() {
 		setResizable(false);

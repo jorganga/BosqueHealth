@@ -32,6 +32,7 @@ import view.VentanaBuscarPaciente;
 import view.VentanaCita;
 import view.VentanaCreacion;
 import view.VentanaCrearExamen;
+import view.VentanaCrearPaciente;
 import view.VentanaCrearSeguimiento;
 import view.VentanaLogin;
 import view.VentanaCancelarCita;
@@ -58,6 +59,7 @@ public class Control implements ActionListener {
 	VentanaCreacion ventanaCreacion;
 	VentanaCrearSeguimiento ventanaTratamiento;
 	VentanaCrearExamen ventanaExamen;
+	VentanaCrearPaciente ventanaCrearPac;
 	
 	ArrayList<PacienteDTO> listaPaciente; // luego borrar
 	Reporte reporteTurnos;
@@ -96,6 +98,7 @@ public class Control implements ActionListener {
 		ventanaCreacion = new VentanaCreacion();
 		ventanaTratamiento = new VentanaCrearSeguimiento();
 		ventanaExamen = new VentanaCrearExamen();
+		ventanaCrearPac = new VentanaCrearPaciente();
 		
 		ventanaLogin.btnLogin.addActionListener(this);
 
@@ -106,6 +109,7 @@ public class Control implements ActionListener {
 		ventanaPrincipal.btnCita.addActionListener(this);
 		ventanaPrincipal.btnMostrarCita.addActionListener(this);
 		ventanaPrincipal.btnSeguimientos.addActionListener(this);
+		ventanaPrincipal.btnCrearPaciente.addActionListener(this);
 
 		ventanaAsignarTurnos.btnGenerarTurnos.addActionListener(this);
 		ventanaAsignarTurnos.cboxPeriodo.addActionListener(this);
@@ -122,6 +126,8 @@ public class Control implements ActionListener {
 		ventanaTratamiento.btnCrearSegumiento.addActionListener(this);
 		
 		ventanaExamen.btnCrearExamen.addActionListener(this);
+		
+		ventanaCrearPac.btnCrearPaciente.addActionListener(this);
 
 		adminProfesional = new AdminProfesional();
 
@@ -232,6 +238,9 @@ public class Control implements ActionListener {
 		if (ventanaPrincipal.btnSeguimientos == e.getSource()) {
 			mostrarVentanaCreacion();
 		}
+		if (ventanaPrincipal.btnCrearPaciente == e.getSource()) {
+			mostrarVentanaCrearPaciente();
+		}
 		if (ventanaLogin.btnLogin == e.getSource()) {
 			loginUsuario();
 		}
@@ -258,6 +267,9 @@ public class Control implements ActionListener {
 		}
 		if(ventanaExamen.btnCrearExamen == e.getSource()) {
 			crearExamen();
+		}
+		if(ventanaCrearPac.btnCrearPaciente == e.getSource()) {
+			crearPaciente();
 		}
 		
 	}
@@ -347,7 +359,10 @@ public class Control implements ActionListener {
 		DefaultTableModel tableModelExamen = adminExamen.cargarReporteExamenes(listaExamenes);
 		ventanaCreacion.tableExamenes.setModel(tableModelExamen);
 	}
-
+	
+	private void refrescarPacientes() {
+		listaPaciente = adminP.listarPacientes();
+	}
 	
 	private void loginUsuario()
 	{
@@ -481,6 +496,10 @@ public class Control implements ActionListener {
 		
 	}
 	
+	private void mostrarVentanaCrearPaciente() {
+		ventanaCrearPac.setVisible(true);
+	}
+	
 	private void crearTratamiento() {
 		if (ventanaTratamiento.txtSeguimiento.getText().equals("")) {
 			showMessageDialog(null, "Ingrese una descripción!");
@@ -510,6 +529,53 @@ public class Control implements ActionListener {
 			showMessageDialog(null, "Examen registrado");
 			refrescarExamenes();
 			ventanaExamen.setVisible(false);
+		}
+		
+	}
+	
+	private void crearPaciente() {
+		if (ventanaCrearPac.txtIdentificacion.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una Identificación!");
+			return;
+		}
+		if (ventanaCrearPac.txtNombre.getText().equals("")) {
+			showMessageDialog(null, "Ingrese un nombre!");
+			return;
+		}
+		if (ventanaCrearPac.txtEmail.getText().equals("")) {
+			showMessageDialog(null, "Ingrese un email!");
+			return;
+		}
+		if (ventanaCrearPac.txtFechaNacimiento.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una fecha de nacimiento!");
+			return;
+		}
+		if (ventanaCrearPac.txtPeso.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una peso!");
+			return;
+		}
+		if (ventanaCrearPac.txtTipoSangre.getText().equals("")) {
+			showMessageDialog(null, "Ingrese una tipo de sangre");
+			return;
+		}
+		
+		String identificacion = ventanaCrearPac.txtIdentificacion.getText();
+		String nombre = ventanaCrearPac.txtNombre.getText();
+		String email = ventanaCrearPac.txtEmail.getText();
+		String fechaN = ventanaCrearPac.txtFechaNacimiento.getText();
+		String peso = ventanaCrearPac.txtPeso.getText();
+		String tipoS = ventanaCrearPac.txtTipoSangre.getText();
+		
+		if (adminP.crearPaciente(identificacion, nombre, email, tipoS, fechaN, peso)) {
+			showMessageDialog(null, "Paciente registrado");
+			refrescarPacientes();
+			ventanaCrearPac.txtEmail.setText("");
+			ventanaCrearPac.txtIdentificacion.setText("");
+			ventanaCrearPac.txtNombre.setText("");
+			ventanaCrearPac.txtTipoSangre.setText("");
+			ventanaCrearPac.txtFechaNacimiento.setText("");
+			ventanaCrearPac.txtPeso.setText("");
+			ventanaCrearPac.setVisible(false);
 		}
 		
 	}

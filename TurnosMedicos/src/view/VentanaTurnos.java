@@ -26,7 +26,7 @@ public class VentanaTurnos extends JFrame {
 	private JLabel lblTurnos;
 
 	public VentanaTurnos() {
-		setBounds(100, 100, 766, 562);
+		setBounds(100, 100, 700, 562);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -41,15 +41,11 @@ public class VentanaTurnos extends JFrame {
 		
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(VentanaTurnos.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
-		lblLogo.setBounds(650, 0, 100, 100);
+		lblLogo.setBounds(569, 0, 100, 100);
 		contentPane.add(lblLogo);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(334, 474, 89, 23);
-		contentPane.add(btnNewButton);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(120, 143, 529, 292);
+		scrollPane.setBounds(10, 96, 659, 416);
 		contentPane.add(scrollPane);
 		
 		tableTurnos = new JTable();
@@ -58,7 +54,7 @@ public class VentanaTurnos extends JFrame {
 		
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(VentanaTurnos.class.getResource("/view/pexels-francesco-ungaro-281260 (3).jpg")));
-		lblBackground.setBounds(0, 0, 750, 523);
+		lblBackground.setBounds(0, 0, 693, 523);
 		contentPane.add(lblBackground);
 	}
 }

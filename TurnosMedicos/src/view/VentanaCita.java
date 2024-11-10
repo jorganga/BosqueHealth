@@ -32,19 +32,6 @@ public class VentanaCita extends JFrame {
 	private JLabel lblBackground;
 	private JLabel lblLogo;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCita frame = new VentanaCita();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public VentanaCita() {
 		setResizable(false);
 		setBounds(100, 100, 951, 600);
@@ -53,6 +40,14 @@ public class VentanaCita extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(27, 125, 301, 290);
+		contentPane.add(scrollPane_1);
+		
+		listaPacientes = new JList<Object>();
+		scrollPane_1.setViewportView(listaPacientes);
+		listaPacientes.setBackground(new Color(192, 192, 192));
 		
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(VentanaCita.class.getResource("/view/—Pngtree—medical logo_3558939 (1).png")));
@@ -66,11 +61,6 @@ public class VentanaCita extends JFrame {
 		tableTurnos = new JTable();
 		tableTurnos.setBackground(new Color(192, 192, 192));
 		scrollPane.setViewportView(tableTurnos);
-		
-		listaPacientes = new JList<Object>();
-		listaPacientes.setBackground(new Color(192, 192, 192));
-		listaPacientes.setBounds(49, 127, 288, 290);
-		contentPane.add(listaPacientes);
 		
 		cboxEspecialidad = new JComboBox();
 		cboxEspecialidad.setBounds(484, 104, 149, 22);

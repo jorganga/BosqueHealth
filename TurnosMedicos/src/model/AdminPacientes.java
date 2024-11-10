@@ -1,10 +1,18 @@
 package model;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.table.DefaultTableModel;
 
 import model.persistence.DataMapperCita;
+import model.persistence.DataMapperPaciente;
 import model.persistence.DataMapperTratamientoMedico;
 import model.persistence.DataMapperTurno;
 import model.persistence.PacienteDAO;
@@ -90,7 +98,68 @@ public class AdminPacientes {
 		return tableModel;
 	}
 	
+	public boolean crearPaciente(String identificacion, String nombre, 
+			String email, String tipoSanguineo, String fechaNacimiento, String peso) {
+		
+		if (!esFechaValida(fechaNacimiento)) {
+			showMessageDialog(null, "Ingrese una fecha válida en formato yyyy-MM-dd");
+			return false;
+		}
+		
+		if (!esNumeroValido(peso)) {
+			showMessageDialog(null, "El peso deber ser un número!");
+			return false;
+		}
+		
+		if (!esEmailValido(email)) {
+			showMessageDialog(null, "El email no es válido!");
+			return false;
+		}
+		
+		PacienteDAO daoPaciente = new PacienteDAO(); 
+		PacienteDTO pacienteDTO = new PacienteDTO();
+		
+		int pesoNumerico = Integer.parseInt(peso);
+		
+		String formato = "yyyy-MM-dd";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+        
+		LocalDate fechaNac = LocalDate.parse(fechaNacimiento, formatter);
+		
+		Paciente paciente = new Paciente(nombre, identificacion, email, tipoSanguineo, pesoNumerico, fechaNac); 
+		
+		pacienteDTO = DataMapperPaciente.PacienteToPacienteDTO(paciente);
+		
+		return daoPaciente.add(pacienteDTO);
+	}
 	
+	private boolean esFechaValida(String fecha) {
+		String formato = "yyyy-MM-dd";
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+        try {
+            LocalDate.parse(fecha, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+	
+	private boolean esNumeroValido(String cadena) {
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+	
+	private boolean esEmailValido(String email) {
+        String regex = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
 	
 	
